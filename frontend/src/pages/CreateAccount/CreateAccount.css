@@ -1,0 +1,41 @@
+.create-account-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .create-account-container h1,
+  .create-account-container p {
+    text-align: center;
+  }
+  
+  .create-account-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-account-container input[type="text"],
+  .create-account-container input[type="email"],
+  .create-account-container input[type="tel"],
+  .create-account-container input[type="password"] {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .create-account-container button {
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .create-account-container button:hover {
+    background-color: #333;
+  }
+  

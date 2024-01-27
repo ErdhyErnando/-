@@ -5,7 +5,7 @@ import { useCart } from "../../hooks/useCart";
 
 export default function Header() {
   const user = {
-    name: "deeznuts",
+    name: "Log In",
   };
 
   const { cart } = useCart();
@@ -22,10 +22,10 @@ export default function Header() {
           <ul>
             {user ? (
               <li className={classes.menu_container}>
-                <Link to="/profile">{user.name}</Link>
+                <Link to="/login">{user.name}</Link>
                 <div className={classes.menu}>
                   <Link to="/profile">Profile</Link>
-                  <Link ro="/orders">Orders</Link>
+                  <Link to="/orders">Orders</Link>
                   <a onClick={logout}>Logout</a>
                 </div>
               </li>
