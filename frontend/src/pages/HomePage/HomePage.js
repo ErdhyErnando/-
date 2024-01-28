@@ -3,6 +3,7 @@ import Search from "../../components/Search/Search";
 import Tags from "../../components/Tags/Tags";
 import Thumbnails from "../../components/ThumbnailsRestaurant/ThumbnailsRestaurant";
 import { useParams } from "react-router-dom";
+import Header from "../../components/Header/Header";
 import {
   getAll,
   getAllByTags,
@@ -47,6 +48,7 @@ export default function HomePage() {
 
   return (
     <>
+      <Header />
       <Search />
       <Tags tags={tags} />
       {foods.length === 0 && <NotFound linkText="Reset Search" />}

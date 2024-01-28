@@ -5,11 +5,13 @@ import Title from "../../components/Title/Title";
 import { useCart } from "../../hooks/useCart";
 import classes from "./cartPage.module.css";
 import NotFound from "../../components/NotFound/NotFound";
+import Header from "../../components/Header/Header";
 
 export default function CartPage() {
   const { cart, removeFromCart, changeQuantity } = useCart();
   return (
     <>
+      <Header />
       <Title title="Cart Page" margin="1.5rem 0 0 2.5rem" />
 
       {cart.items.length === 0 ? (

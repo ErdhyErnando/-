@@ -1,16 +1,20 @@
 import React from "react";
 import classes from "./header.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 
 export default function Header() {
   const user = {
-    name: "Log In",
+    name: "Andrew",
   };
 
   const { cart } = useCart();
 
-  const logout = () => {};
+  const navigate = useNavigate();
+
+  const logout = () => {
+    navigate("/");
+  };
 
   return (
     <header className={classes.header}>
@@ -24,7 +28,6 @@ export default function Header() {
               <li className={classes.menu_container}>
                 <Link to="/login">{user.name}</Link>
                 <div className={classes.menu}>
-                  <Link to="/profile">Profile</Link>
                   <Link to="/orderstatus">Orders</Link>
                   <a onClick={logout}>Logout</a>
                 </div>

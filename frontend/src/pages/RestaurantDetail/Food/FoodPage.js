@@ -7,6 +7,7 @@ import StarRating from "../../../components/StarRating/StarRating";
 import Tags from "../../../components/Tags/Tags";
 import Price from "../../../components/Price/Price";
 import NotFound from "../../../components/NotFound/NotFound";
+import Header from "../../../components/Header/Header";
 
 export default function FoodPage() {
   const [food, setFood] = useState({});
@@ -25,6 +26,7 @@ export default function FoodPage() {
 
   return (
     <>
+      <Header />
       {!food ? (
         <NotFound message="Food Not Found!" linkText="Back To Home Page" />
       ) : (

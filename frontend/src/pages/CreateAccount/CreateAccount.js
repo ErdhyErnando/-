@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import './CreateAccount.css'; // Assuming you have a CSS file for styling
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./CreateAccount.css"; // Assuming you have a CSS file for styling
 
 const CreateAccount = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    telephone: '',
-    address: '',
-    postalCode: '',
-    password: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    telephone: "",
+    address: "",
+    postalCode: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -26,12 +27,18 @@ const CreateAccount = () => {
     console.log(formData);
   };
 
+  const navigate = useNavigate();
+
+  const handleSignUp = () => {
+    navigate("/homepage");
+  };
+
   return (
     <div className="create-account-container">
       <form onSubmit={handleSubmit}>
         <h1>Creating a Lieferspatz Account</h1>
         <p>User Information</p>
-        
+
         <input
           type="text"
           name="firstName"
@@ -40,7 +47,7 @@ const CreateAccount = () => {
           placeholder="Enter your first name"
           required
         />
-        
+
         <input
           type="text"
           name="lastName"
@@ -49,7 +56,7 @@ const CreateAccount = () => {
           placeholder="Enter your last name"
           required
         />
-        
+
         <input
           type="email"
           name="email"
@@ -58,7 +65,7 @@ const CreateAccount = () => {
           placeholder="Enter your email address"
           required
         />
-        
+
         <input
           type="tel"
           name="telephone"
@@ -67,7 +74,7 @@ const CreateAccount = () => {
           placeholder="Enter your telephone number"
           required
         />
-        
+
         <input
           type="text"
           name="address"
@@ -76,7 +83,7 @@ const CreateAccount = () => {
           placeholder="Enter your home address"
           required
         />
-        
+
         <input
           type="text"
           name="postalCode"
@@ -85,7 +92,7 @@ const CreateAccount = () => {
           placeholder="Enter your postal code"
           required
         />
-        
+
         <input
           type="password"
           name="password"
@@ -95,8 +102,10 @@ const CreateAccount = () => {
           required
         />
         <small>Use 8 characters or more for your password</small>
-        
-        <button type="submit">Sign Up</button>
+
+        <button type="submit" onClick={handleSignUp}>
+          Sign Up
+        </button>
       </form>
     </div>
   );

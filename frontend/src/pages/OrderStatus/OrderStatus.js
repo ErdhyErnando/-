@@ -1,5 +1,7 @@
 import React from "react";
 import "./OrderStatus.css"; // Make sure to create an accompanying CSS file for styling
+import Header from "../../components/Header/Header";
+import { useNavigate } from "react-router-dom";
 
 const OrderStatus = () => {
   // Dummy data to simulate fetched order status and history
@@ -29,43 +31,56 @@ const OrderStatus = () => {
     // ... Add more orders as needed
   ];
 
-  return (
-    <div className="order-status-page">
-      <div className="order-status-header">
-        <h1>Order Status</h1>
-        {/* Status icons would go here */}
-      </div>
+  const navigate = useNavigate();
 
-      <div className="order-history">
-        <h2>Order History</h2>
-        {orderHistory.map((order, index) => (
-          <div key={index} className="order">
-            <h3>{order.restaurantName}</h3>
-            <p>{order.address}</p>
-            <p>{order.time}</p>
-            <p>Total: {order.totalPrice}</p>
-            {/* Order summary details would be mapped here */}
-            <div className="order-summary">
-              {/* Map through items and display them */}
-              {order.items.map((item, itemIndex) => (
-                <div key={itemIndex} className="item">
-                  <p>{item.name}</p>
-                  <p>{item.price}</p>
-                </div>
-              ))}
-              <p>
-                Subtotal:{" "}
-                {order.items
-                  .reduce((total, item) => total + parseFloat(item.price), 0)
-                  .toFixed(2)}{" "}
-                €
-              </p>
-              <p>Delivery fee: {order.deliveryFee}</p>
-              <p>Platform fee: {order.platformFee}</p>
+  const backToHomePage = () => {
+    navigate("/homepage");
+  };
+
+  return (
+    <div>
+      {" "}
+      <Header />
+      <div className="order-status-page">
+        <div className="order-status-header">
+          <h1>Order Status</h1>
+          {/* Status icons would go here */}
+        </div>
+
+        <div className="order-history">
+          <h2>Order History</h2>
+          {orderHistory.map((order, index) => (
+            <div key={index} className="order">
+              <h3>{order.restaurantName}</h3>
+              <p>{order.address}</p>
+              <p>{order.time}</p>
               <p>Total: {order.totalPrice}</p>
+              {/* Order summary details would be mapped here */}
+              <div className="order-summary">
+                {/* Map through items and display them */}
+                {order.items.map((item, itemIndex) => (
+                  <div key={itemIndex} className="item">
+                    <p>{item.name}</p>
+                    <p>{item.price}</p>
+                  </div>
+                ))}
+                <p>
+                  Subtotal:{" "}
+                  {order.items
+                    .reduce((total, item) => total + parseFloat(item.price), 0)
+                    .toFixed(2)}{" "}
+                  €
+                </p>
+                <p>Delivery fee: {order.deliveryFee}</p>
+                <p>Platform fee: {order.platformFee}</p>
+                <p>Total: {order.totalPrice}</p>
+                <button className="place-order-button" onClick={backToHomePage}>
+                  Back to Homepage
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

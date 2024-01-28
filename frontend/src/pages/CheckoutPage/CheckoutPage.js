@@ -1,5 +1,7 @@
 import React from "react";
 import "./CheckoutPage.css"; // Make sure to create an accompanying CSS file for styling
+import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header/Header";
 
 const OrderSummary = () => {
   // Dummy data for the purpose of this example
@@ -22,56 +24,68 @@ const OrderSummary = () => {
     walletBalance: 23.45,
   };
 
+  const navigate = useNavigate();
+
+  const proceedCheckout = () => {
+    navigate("/orderstatus");
+  };
+
   // You can add state and handlers here to manage the quantity, notes, and other dynamic data.
 
   return (
-    <div className="order-summary-container">
-      <h1>Order Summary</h1>
-      <div className="delivery-info">
-        <p>
-          <strong>Delivery</strong>
-        </p>
-        <p>Arriving in {orderDetails.deliveryTime}</p>
+    <div>
+      <Header />
+
+      <div className="order-summary-container">
+        <h1>Checkout</h1>
+        <div className="delivery-info">
+          <p>
+            <strong>Delivery</strong>
+          </p>
+          <p>Arriving in {orderDetails.deliveryTime}</p>
+        </div>
+
+        <div className="delivery-location">
+          <p>{orderDetails.address}</p>
+          <button>Add address details</button>
+        </div>
+
+        <textarea
+          placeholder="e.g. Please leave food at the door/gate"
+          value={orderDetails.deliveryNotes}
+          // onChange handler to set delivery notes
+        />
+
+        <div className="item-details">
+          <h2>{orderDetails.item.name}</h2>
+          <p>{orderDetails.item.description}</p>
+          <p>{orderDetails.item.price.toFixed(2)} €</p>
+          {/* Quantity control could be implemented here */}
+          <button>Add notes to your dish</button>
+        </div>
+
+        <div className="payment-summary">
+          <h2>Payment Summary</h2>
+          <p>Price: {orderDetails.paymentSummary.price.toFixed(2)} €</p>
+          <p>
+            Delivery fee: {orderDetails.paymentSummary.deliveryFee.toFixed(2)} €
+          </p>
+          <p>
+            Platform fee: {orderDetails.paymentSummary.platformFee.toFixed(2)} €
+          </p>
+          <p>Total payment: {orderDetails.paymentSummary.total.toFixed(2)} €</p>
+        </div>
+
+        <div className="wallet-balance">
+          <p>E-wallet balance</p>
+          <p>{orderDetails.walletBalance.toFixed(2)} €</p>
+          <button>Top up</button>
+        </div>
+
+        <button className="place-order-button" onClick={proceedCheckout}>
+          Place delivery order
+        </button>
       </div>
-
-      <div className="delivery-location">
-        <p>{orderDetails.address}</p>
-        <button>Add address details</button>
-      </div>
-
-      <textarea
-        placeholder="e.g. Please leave food at the door/gate"
-        value={orderDetails.deliveryNotes}
-        // onChange handler to set delivery notes
-      />
-
-      <div className="item-details">
-        <h2>{orderDetails.item.name}</h2>
-        <p>{orderDetails.item.description}</p>
-        <p>{orderDetails.item.price.toFixed(2)} €</p>
-        {/* Quantity control could be implemented here */}
-        <button>Add notes to your dish</button>
-      </div>
-
-      <div className="payment-summary">
-        <h2>Payment Summary</h2>
-        <p>Price: {orderDetails.paymentSummary.price.toFixed(2)} €</p>
-        <p>
-          Delivery fee: {orderDetails.paymentSummary.deliveryFee.toFixed(2)} €
-        </p>
-        <p>
-          Platform fee: {orderDetails.paymentSummary.platformFee.toFixed(2)} €
-        </p>
-        <p>Total payment: {orderDetails.paymentSummary.total.toFixed(2)} €</p>
-      </div>
-
-      <div className="wallet-balance">
-        <p>E-wallet balance</p>
-        <p>{orderDetails.walletBalance.toFixed(2)} €</p>
-        <button>Top up</button>
-      </div>
-
-      <button className="place-order-button">Place delivery order</button>
     </div>
   );
 };
