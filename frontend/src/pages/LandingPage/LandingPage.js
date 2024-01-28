@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import './LandingPage.css'; // Assuming you have a CSS file for styling
+import "./LandingPage.css"; // Assuming you have a CSS file for styling
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -12,10 +12,12 @@ function LandingPage() {
 
   return (
     <div>
-      <h1>Order Foods and More</h1>
-      <h2>Restaurants and Shops deliver to you</h2>
+      <h1>Lieferspatz</h1>
+      <h2>DHL but for food!</h2>
       <div>
-        <Link to="/Login">Log in now and start food hunting!</Link>
+        <button>
+          <Link to="/Login">Log in now and start food hunting!</Link>
+        </button>
       </div>
     </div>
   );

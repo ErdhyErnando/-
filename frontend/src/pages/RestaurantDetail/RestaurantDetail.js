@@ -47,6 +47,7 @@ export default function HomePage() {
 
   return (
     <>
+      <h1>Ini restaurant detail okaaaaaaay</h1>
       <Search />
       <Tags tags={tags} />
       {foods.length === 0 && <NotFound linkText="Reset Search" />}
