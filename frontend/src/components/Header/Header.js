@@ -25,7 +25,7 @@ export default function Header() {
                 <Link to="/login">{user.name}</Link>
                 <div className={classes.menu}>
                   <Link to="/profile">Profile</Link>
-                  <Link to="/orders">Orders</Link>
+                  <Link to="/orderstatus">Orders</Link>
                   <a onClick={logout}>Logout</a>
                 </div>
               </li>

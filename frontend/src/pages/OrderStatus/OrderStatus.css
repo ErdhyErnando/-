@@ -1,0 +1,34 @@
+.order-status-page {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.order-status-header {
+  text-align: center;
+  /* Add styles for status icons */
+}
+
+.order-history {
+  margin-top: 20px;
+}
+
+.order {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.order-summary {
+  border-top: 1px dashed #000;
+  padding-top: 10px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Add additional styles as needed */

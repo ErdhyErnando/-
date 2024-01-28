@@ -1,0 +1,45 @@
+.order-summary-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.delivery-info,
+.delivery-location,
+.item-details,
+.payment-summary,
+.wallet-balance {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+.place-order-button {
+  width: 100%;
+  font-size: 1.2em;
+}
+
+textarea {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #000;
+  resize: vertical;
+}
+
+/* Add more styles as needed */
