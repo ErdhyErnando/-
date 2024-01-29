@@ -1,0 +1,24 @@
+.restaurant-dashboard {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.restaurant-details {
+  text-align: center;
+}
+
+.logo-placeholder {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  margin: 0 auto;
+  float: left;
+}
+
+.order,
+.order.history {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+  padding: 20px;
+}

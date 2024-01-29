@@ -10,6 +10,8 @@ import LoginRestaurant from "./pages/LoginRestaurant/LoginRestaurant";
 import HomePage from "./pages/HomePage/HomePage";
 import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import OrderStatus from "./pages/OrderStatus/OrderStatus";
+import RestaurantDashboard from "./pages/RestaurantDashboard/RestaurantDashboard";
+import EditMenu from "./pages/RestaurantDashboard/EditMenu/EditMenu";
 
 export default function AppRoutes() {
   return (
@@ -33,6 +35,8 @@ export default function AppRoutes() {
       <Route path="/homepage" element={<HomePage />} />
       <Route path="/checkoutpage" element={<CheckoutPage />} />
       <Route path="/orderstatus" element={<OrderStatus />} />
+      <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
+      <Route path="/restaurantdashboard/edit" element={<EditMenu />} />
     </Routes>
   );
 }
