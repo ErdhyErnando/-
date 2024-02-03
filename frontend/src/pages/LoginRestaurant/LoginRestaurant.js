@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import './LoginRestaurant.css'; // Assuming you have a CSS file for styling
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./LoginRestaurant.css"; // Assuming you have a CSS file for styling
 
 const LoginRestaurant = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
+
+  const navigate = useNavigate();
+
+  const handleRestaurantSignIn = () => {
+    navigate("/restaurantdashboard");
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -26,7 +32,7 @@ const LoginRestaurant = () => {
     <div className="create-account-container">
       <form onSubmit={handleSubmit}>
         <h1>Log in to your Lieferspatz Restaurant account</h1>
-        
+
         <input
           type="email"
           name="email"
@@ -35,7 +41,7 @@ const LoginRestaurant = () => {
           placeholder="Enter your restaurant email address"
           required
         />
-        
+
         <input
           type="password"
           name="password"
@@ -44,9 +50,13 @@ const LoginRestaurant = () => {
           placeholder="Enter your password"
           required
         />
-        <Link to="/CreateAccountRestaurant">Don't have an account? Create your restaurant account here</Link>
-        
-        <button type="submit">Log in</button>
+        <Link to="/CreateAccountRestaurant">
+          Don't have an account? Create your restaurant account here
+        </Link>
+
+        <button type="submit" onClick={handleRestaurantSignIn}>
+          Log in
+        </button>
       </form>
     </div>
   );
