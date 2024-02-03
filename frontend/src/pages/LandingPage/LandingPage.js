@@ -7,14 +7,16 @@ function LandingPage() {
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    navigate("/food/:id");
+    navigate("/login");
   };
 
   return (
     <div className="landing-page-container">
       <h1>Bestelle Essen und mehr</h1>
       <h2>Restaurants und Geschäfte, die zu dir liefern</h2>
-      <button className="login-button">Log In</button>
+      <button className="login-button" onClick={handleSignIn}>
+        Log In
+      </button>
 
       <div className="services">
         <div className="service">
