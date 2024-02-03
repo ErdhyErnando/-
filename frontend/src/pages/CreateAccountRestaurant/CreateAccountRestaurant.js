@@ -1,32 +1,77 @@
-import React, { useState } from 'react';
-import './CreateAccountRestaurant.css'; // Assuming you have a CSS file for styling
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import UserContext from "../../UserContext"; // Update this path if needed
+import "./CreateAccountRestaurant.css"; // Assuming you have a CSS file for styling
 
 const CreateAccountRestaurant = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    telephone: '',
-    password: '',
-    restaurantName: '',
-    restaurantTelephone: '',
-    restaurantAddress: '',
-    restaurantPostalCode: ''
-
+    firstName: "",
+    lastName: "",
+    email: "",
+    telephone: "",
+    password: "",
+    restaurantName: "",
+    restaurantTelephone: "",
+    restaurantAddress: "",
+    restaurantPostalCode: "",
   });
+
+  const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit form logic
-    console.log(formData);
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/owners/signup/",
+        {
+          OwnerVorname: formData.firstName,
+          OwnerNachname: formData.lastName,
+          OwnerPasswort: formData.password,
+          OwnerEmail: formData.email,
+          OwnerTelefonNummer: formData.telephone,
+        }
+      );
+
+      console.log("User signed up:", response.data); // log the user data after signup
+
+      // Store the user data in your context
+      setUser(response.data);
+      navigate("/LoginRestaurant");
+    } catch (error) {
+      console.error(error);
+    }
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/restaurants/",
+        {
+          RestaurantTelefonNummer: formData.restaurantTelephone,
+          RestaurantName: formData.restaurantName,
+          RestaurantAdresse: formData.restaurantAddress,
+          RestaurantPLZ: formData.restaurantPostalCode,
+          OwnerTelefonNummer: formData.telephone,
+        }
+      );
+
+      console.log("User signed up:", response.data); // log the user data after signup
+
+      // Store the user data in your context
+      setUser(response.data);
+      navigate("/LoginRestaurant");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -34,7 +79,7 @@ const CreateAccountRestaurant = () => {
       <form onSubmit={handleSubmit}>
         <h1>Creating a Lieferspatz Restaurant account</h1>
         <p>Owner's Information</p>
-        
+
         <input
           type="text"
           name="firstName"
@@ -43,7 +88,7 @@ const CreateAccountRestaurant = () => {
           placeholder="Enter your first name"
           required
         />
-        
+
         <input
           type="text"
           name="lastName"
@@ -52,7 +97,7 @@ const CreateAccountRestaurant = () => {
           placeholder="Enter your last name"
           required
         />
-        
+
         <input
           type="email"
           name="email"
@@ -61,7 +106,7 @@ const CreateAccountRestaurant = () => {
           placeholder="Enter your email address"
           required
         />
-        
+
         <input
           type="tel"
           name="telephone"
@@ -70,7 +115,7 @@ const CreateAccountRestaurant = () => {
           placeholder="Enter your telephone number"
           required
         />
-        
+
         <input
           type="password"
           name="password"
@@ -81,45 +126,7 @@ const CreateAccountRestaurant = () => {
         />
         <small>Use 8 characters or more for your password</small>
 
-        <p>Restaurant Information</p>
-
-        <input
-          type="text"
-          name="restaurantName"
-          value={formData.restaurantName}
-          onChange={handleChange}
-          placeholder="Enter the name of your restaurant"
-          required
-        />
-
-        <input
-          type="text"
-          name="restaurantTelephone"
-          value={formData.restaurantTelephone}
-          onChange={handleChange}
-          placeholder="Enter the telephone number of your restaurant"
-          required
-        />
-
-        <input
-          type="text"
-          name="restaurantAddress"
-          value={formData.restaurantAddress}
-          onChange={handleChange}
-          placeholder="Enter the address of your restaurant"
-          required
-        />
-
-        <input
-          type="text"
-          name="restaurantPostalCode"
-          value={formData.restaurantPostalCode}
-          onChange={handleChange}
-          placeholder="Enter the postal code of your restaurant"
-          required
-        />
-        
-        <button type="submit">Sign Up</button>
+        <button type="submit">Add Restaurant details</button>
       </form>
     </div>
   );

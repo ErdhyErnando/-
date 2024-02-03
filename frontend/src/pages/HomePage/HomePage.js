@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useContext } from "react";
 import Search from "../../components/Search/Search";
 import Tags from "../../components/Tags/Tags";
 import Thumbnails from "../../components/ThumbnailsRestaurant/ThumbnailsRestaurant";
@@ -11,6 +11,7 @@ import {
   search,
 } from "../../services/restaurantService";
 import NotFound from "../../components/NotFound/NotFound";
+import UserContext from "../../UserContext"; // Update this path if needed
 
 const initialState = { foods: [], tags: [] };
 
@@ -29,6 +30,8 @@ export default function HomePage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { foods, tags } = state;
   const { searchTerm, tag } = useParams();
+
+  const { user } = useContext(UserContext); // Access user data from context
 
   useEffect(() => {
     getAllTags().then((tags) =>

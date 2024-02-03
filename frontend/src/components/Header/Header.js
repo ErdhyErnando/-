@@ -32,7 +32,7 @@ export default function Header() {
   return (
     <header className={classes.header}>
       <div className={classes.container}>
-        <Link to="/" className={classes.logo}>
+        <Link to="/homepage" className={classes.logo}>
           Lieferspatz!
         </Link>
         <nav>
