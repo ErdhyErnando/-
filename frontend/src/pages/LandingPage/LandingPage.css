@@ -1,6 +1,14 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
 .landing-page-container {
+
   text-align: center;
-  padding: 50px;
+  padding: 15px;
+  
 }
 
 h1 {
@@ -13,15 +21,46 @@ h2 {
   font-size: 1.5em;
 }
 
-.login-button {
-  padding: 10px 20px;
-  margin-bottom: 50px;
-  font-size: 1em;
-  cursor: pointer;
+.login-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
+.login-button {
+  padding: 10px 80px;
+  font-size: 1.5em;
+  cursor: pointer;
+  background-color: #00A898;
+  border-radius: 40px;
+  margin: 0 auto; 
+}
+
+.login-button:hover {
+  background-color: #ff763e; 
+  color: black;
+}
+
+.services {
+  margin-top: 100px;
+  bottom: 0;
+  background-color: #ff763e;
+  display: flex;
+  border-radius: 10px;
+}
+
+.service {
+  flex: 1;
+  margin: 10px;
+  box-sizing: border-box; /* Optional: include the padding and border in the element's total width and height */
+  padding: 10px; /* Optional: add some padding inside the boxes */
+
+}
 .services .service {
-  margin-bottom: 30px;
+ margin: 10px;
+
 }
 
 .service h3 {
