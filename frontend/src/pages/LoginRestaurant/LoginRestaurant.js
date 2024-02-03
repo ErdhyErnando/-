@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./LoginRestaurant.css"; // Assuming you have a CSS file for styling
 
 const LoginRestaurant = () => {
@@ -8,11 +9,9 @@ const LoginRestaurant = () => {
     password: "",
   });
 
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleRestaurantSignIn = () => {
-    navigate("/restaurantdashboard");
-  };
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,15 +21,31 @@ const LoginRestaurant = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleRestaurantSignIn = async (e) => {
     e.preventDefault();
-    // Submit form logic
-    console.log(formData);
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/owners/login/",
+        {
+          OwnerPasswort: formData.password,
+          OwnerEmail: formData.email,
+        }
+      );
+
+      console.log(response.data);
+
+      // If successful login, navigate to the restaurant dashboard
+      navigate("/restaurantdashboard");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("The username or password is incorrect");
+    }
   };
 
   return (
     <div className="create-account-container">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleRestaurantSignIn}>
         <h1>Log in to your Lieferspatz Restaurant account</h1>
 
         <input
@@ -50,13 +65,14 @@ const LoginRestaurant = () => {
           placeholder="Enter your password"
           required
         />
+
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
         <Link to="/CreateAccountRestaurant">
           Don't have an account? Create your restaurant account here
         </Link>
 
-        <button type="submit" onClick={handleRestaurantSignIn}>
-          Log in
-        </button>
+        <button type="submit">Log in</button>
       </form>
     </div>
   );
