@@ -13,6 +13,6 @@ export default function NotFound({ message, linkRoute, linkText }) {
 
 NotFound.defaultProps = {
   message: "Nothing Found!",
-  linkRoute: "/",
+  linkRoute: "/homepage",
   linkText: "Go To Home Page",
 };

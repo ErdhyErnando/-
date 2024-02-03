@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../UserContext"; // Update this path if needed
 import "./Login.css";
 
 const Login = () => {
@@ -18,6 +19,9 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  // Use the useContext hook to get the setUser function from UserContext
+  const { setUser } = useContext(UserContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,7 +34,15 @@ const Login = () => {
         }
       );
 
-      console.log(response.data);
+      console.log("User logged in:", response.data); // log the user data after login
+
+      // Fetch the user details using the CustomerID
+      const userDetailsResponse = await axios.get(
+        `http://127.0.0.1:8000/api/customers/${response.data.CustomerID}/`
+      );
+
+      // Store the user data in your context
+      setUser(userDetailsResponse.data);
 
       navigate("/homepage");
     } catch (error) {

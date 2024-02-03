@@ -12,31 +12,39 @@ import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import OrderStatus from "./pages/OrderStatus/OrderStatus";
 import RestaurantDashboard from "./pages/RestaurantDashboard/RestaurantDashboard";
 import EditMenu from "./pages/RestaurantDashboard/EditMenu/EditMenu";
+import React, { useState } from "react";
+import UserContext from "./UserContext";
 
 export default function AppRoutes() {
+  const [user, setUser] = useState(null);
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/restaurantdetail" element={<RestaurantDetail />} />
-      <Route
-        path="/restaurantoage/search/:searchTerm"
-        element={<RestaurantDetail />}
-      />
-      <Route path="/restaurantdetail/tag/:tag" element={<RestaurantDetail />} />
-      <Route path="/restaurantdetail/food/:id" element={<FoodPage />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/createaccount" element={<CreateAccount />} />
-      <Route path="/loginrestaurant" element={<LoginRestaurant />} />
-      <Route
-        path="/createaccountrestaurant"
-        element={<CreateAccountRestaurant />}
-      />
-      <Route path="/homepage" element={<HomePage />} />
-      <Route path="/checkoutpage" element={<CheckoutPage />} />
-      <Route path="/orderstatus" element={<OrderStatus />} />
-      <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
-      <Route path="/restaurantdashboard/edit" element={<EditMenu />} />
-    </Routes>
+    <UserContext.Provider value={{ user, setUser }}>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/restaurantdetail" element={<RestaurantDetail />} />
+        <Route
+          path="/restaurantoage/search/:searchTerm"
+          element={<RestaurantDetail />}
+        />
+        <Route
+          path="/restaurantdetail/tag/:tag"
+          element={<RestaurantDetail />}
+        />
+        <Route path="/restaurantdetail/food/:id" element={<FoodPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/createaccount" element={<CreateAccount />} />
+        <Route path="/loginrestaurant" element={<LoginRestaurant />} />
+        <Route
+          path="/createaccountrestaurant"
+          element={<CreateAccountRestaurant />}
+        />
+        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/checkoutpage" element={<CheckoutPage />} />
+        <Route path="/orderstatus" element={<OrderStatus />} />
+        <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
+        <Route path="/restaurantdashboard/edit" element={<EditMenu />} />
+      </Routes>
+    </UserContext.Provider>
   );
 }

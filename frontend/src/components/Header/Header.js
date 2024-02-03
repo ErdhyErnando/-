@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
+import UserContext from "../../UserContext"; // import UserContext
 
 export default function Header() {
-  const user = {
-    name: "Andrew",
-  };
-
   const { cart } = useCart();
-
   const navigate = useNavigate();
 
+  const { user, setUser } = useContext(UserContext); // use UserContext
+
+  console.log(user.CustomerVorname); // log the user object
+
   const logout = () => {
+    setUser(null); // clear the user data when logging out
     navigate("/");
   };
 
@@ -26,7 +27,7 @@ export default function Header() {
           <ul>
             {user ? (
               <li className={classes.menu_container}>
-                <Link to="/login">{user.name}</Link>
+                <Link to="/login">{user.CustomerVorname}</Link>
                 <div className={classes.menu}>
                   <Link to="/orderstatus">Orders</Link>
                   <a onClick={logout}>Logout</a>
