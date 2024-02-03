@@ -3,6 +3,7 @@ import classes from "./header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 import UserContext from "../../UserContext"; // import UserContext
+import axios from "axios";
 
 export default function Header() {
   const { cart } = useCart();
@@ -12,9 +13,20 @@ export default function Header() {
 
   console.log(user.CustomerVorname); // log the user object
 
-  const logout = () => {
-    setUser(null); // clear the user data when logging out
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      // Call the logout API
+      await axios.post("http://127.0.0.1:8000/api/customers/logout/");
+
+      console.log("User logged out successfully");
+
+      // Clear the user data when logging out
+      setUser(null);
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -27,10 +39,10 @@ export default function Header() {
           <ul>
             {user ? (
               <li className={classes.menu_container}>
-                <Link to="/login">{user.CustomerVorname}</Link>
+                <Link>{user.CustomerVorname}</Link>
                 <div className={classes.menu}>
                   <Link to="/orderstatus">Orders</Link>
-                  <a onClick={logout}>Logout</a>
+                  <a onClick={handleLogout}>Logout</a>
                 </div>
               </li>
             ) : (

@@ -47,7 +47,9 @@ const Login = () => {
       navigate("/homepage");
     } catch (error) {
       console.error(error);
-      setErrorMessage("The username or password is incorrect");
+      setErrorMessage(
+        "Username or Password is incorrect or the user does not exist. Please try again."
+      );
     }
   };
 
