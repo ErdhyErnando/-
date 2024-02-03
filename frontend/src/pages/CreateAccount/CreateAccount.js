@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import UserContext from "../../UserContext"; // Update this path if needed
 import "./CreateAccount.css"; // Assuming you have a CSS file for styling
 
 const CreateAccount = () => {
@@ -13,6 +15,10 @@ const CreateAccount = () => {
     password: "",
   });
 
+  const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -21,16 +27,31 @@ const CreateAccount = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit form logic
-    console.log(formData);
-  };
 
-  const navigate = useNavigate();
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/customers/signup/",
+        {
+          CustomerVorname: formData.firstName,
+          CustomerNachname: formData.lastName,
+          CustomerPasswort: formData.password,
+          CustomerEmail: formData.email,
+          CustomerTelefonNummer: formData.telephone,
+          CustomerAdresse: formData.address,
+          CUstomerPLZ: formData.postalCode,
+        }
+      );
 
-  const handleSignUp = () => {
-    navigate("/homepage");
+      console.log("User signed up:", response.data); // log the user data after signup
+
+      // Store the user data in your context
+      setUser(response.data);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -103,9 +124,7 @@ const CreateAccount = () => {
         />
         <small>Use 8 characters or more for your password</small>
 
-        <button type="submit" onClick={handleSignUp}>
-          Sign Up
-        </button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
