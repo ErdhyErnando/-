@@ -5,8 +5,28 @@ import axios from "axios";
 
 const RestaurantDashboard = () => {
   const { user, setUser } = useContext(UserContext);
+  const [restaurant, setRestaurant] = useState({});
 
-  console.log(user.OwnerVorname);
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const ownerResponse = await axios.get(
+          `http://127.0.0.1:8000/api/owners/${user.OwnerID}/`
+        );
+
+        console.log(ownerResponse.data); // Log owner data to console
+        const restaurantResponse = await axios.get(
+          `http://127.0.0.1:8000/api/restaurants/${ownerResponse.data.RestaurantID}/`
+        );
+
+        setRestaurant(restaurantResponse.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDetails();
+  }, []);
 
   const incomingOrders = [
     // ... incoming orders
@@ -24,17 +44,19 @@ const RestaurantDashboard = () => {
     // Logic to reject order
   };
 
+  console.log(restaurant.RestaurantImage);
+
   return (
     <div className="restaurant-dashboard">
       <h1>Restaurant Dashboard</h1>
       <div className="restaurant-details">
-        <img src={user.RestaurantImage} alt={user.RestaurantName} />
-        <h2>{user.RestaurantName}</h2>
+        <img src={restaurant.RestaurantImage} alt={restaurant.RestaurantName} />
+        <h2>{restaurant.RestaurantName}</h2>
         <p>
-          {user.RestaurantAdresse}
-          {user.RestaurantPLZ}
+          {restaurant.RestaurantAdresse}
+          {restaurant.RestaurantPLZ}
         </p>
-        <p>{user.RestaurantTelefonNummer}</p>
+        <p>{restaurant.RestaurantTelefonNummer}</p>
         <button>Edit Restaurant Details</button>
         <button>Edit Menu</button>
       </div>
