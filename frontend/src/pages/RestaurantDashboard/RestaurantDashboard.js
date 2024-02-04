@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./RestaurantDashboard.css";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../../UserContext";
 import axios from "axios";
 
@@ -20,6 +21,7 @@ const RestaurantDashboard = () => {
         );
 
         setRestaurant(restaurantResponse.data);
+        setUser(restaurantResponse.data);
       } catch (error) {
         console.error(error);
       }
@@ -46,6 +48,12 @@ const RestaurantDashboard = () => {
 
   console.log(restaurant.RestaurantImage);
 
+  const navigate = useNavigate();
+
+  const handleEditMenu = () => {
+    navigate("/restaurantdashboard/edit");
+  };
+
   return (
     <div className="restaurant-dashboard">
       <h1>Restaurant Dashboard</h1>
@@ -57,8 +65,7 @@ const RestaurantDashboard = () => {
           {restaurant.RestaurantPLZ}
         </p>
         <p>{restaurant.RestaurantTelefonNummer}</p>
-        <button>Edit Restaurant Details</button>
-        <button>Edit Menu</button>
+        <button onClick={handleEditMenu}>Edit Menu</button>
       </div>
 
       <h2>Incoming Orders</h2>

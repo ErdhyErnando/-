@@ -11,7 +11,7 @@ const AddRestaurantDetails = () => {
     restaurantPostalCode: "",
     restaurantTelephone: "",
     restaurantOwner: null,
-    restaurantImage: null,
+    restaurantImage: "",
     openHour: "",
     closeHour: "",
   });
