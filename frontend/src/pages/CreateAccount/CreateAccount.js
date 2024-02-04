@@ -40,7 +40,7 @@ const CreateAccount = () => {
           CustomerEmail: formData.email,
           CustomerTelefonNummer: formData.telephone,
           CustomerAdresse: formData.address,
-          CUstomerPLZ: formData.postalCode,
+          CustomerPLZ: formData.postalCode,
         }
       );
 
@@ -48,7 +48,7 @@ const CreateAccount = () => {
 
       // Store the user data in your context
       setUser(response.data);
-      navigate("/login");
+      navigate("/customerbankdetail"); // Redirect the user to the next page
     } catch (error) {
       console.error(error);
     }

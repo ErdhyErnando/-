@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../UserContext"; // Update this path if needed
 import "./LoginRestaurant.css"; // Assuming you have a CSS file for styling
 
 const LoginRestaurant = () => {
@@ -12,6 +13,8 @@ const LoginRestaurant = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+
+  const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +37,12 @@ const LoginRestaurant = () => {
       );
 
       console.log(response.data);
+
+      const userDetailsResponse = await axios.get(
+        `http://127.0.0.1:8000/api/owners/${response.data.OwnerID}/`
+      );
+
+      setUser(userDetailsResponse.data);
 
       // If successful login, navigate to the restaurant dashboard
       navigate("/restaurantdashboard");

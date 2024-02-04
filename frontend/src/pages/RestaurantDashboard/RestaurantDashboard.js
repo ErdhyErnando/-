@@ -6,26 +6,7 @@ import axios from "axios";
 const RestaurantDashboard = () => {
   const { user, setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/owners/${user.OwnerID}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        setUser(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUser();
-  }, [setUser, user.OwnerID]);
+  console.log(user.OwnerVorname);
 
   const incomingOrders = [
     // ... incoming orders

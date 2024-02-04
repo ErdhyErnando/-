@@ -6,12 +6,14 @@ import "./AddRestaurantDetails.css";
 
 const AddRestaurantDetails = () => {
   const [formData, setFormData] = useState({
-    restaurantTelephone: "",
     restaurantName: "",
     restaurantAddress: "",
     restaurantPostalCode: "",
-    restaurantImage: null,
+    restaurantTelephone: "",
     restaurantOwner: null,
+    restaurantImage: null,
+    openHour: "",
+    closeHour: "",
   });
 
   const { user, setUser } = useContext(UserContext);
@@ -37,12 +39,14 @@ const AddRestaurantDetails = () => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append("RestaurantTelefonNummer", formData.restaurantTelephone);
     data.append("RestaurantName", formData.restaurantName);
     data.append("RestaurantAdresse", formData.restaurantAddress);
     data.append("RestaurantPLZ", formData.restaurantPostalCode);
-    data.append("RestaurantImage", formData.restaurantImage);
+    data.append("RestaurantTelefonNummer", formData.restaurantTelephone);
     data.append("RestaurantOwner", user.OwnerID);
+    data.append("RestaurantImage", formData.restaurantImage);
+    data.append("OpenHour", formData.openHour);
+    data.append("CloseHour", formData.closeHour);
 
     try {
       const response = await axios.post(
@@ -55,9 +59,14 @@ const AddRestaurantDetails = () => {
         }
       );
 
-      setUser(response.data);
+      const userDetailsResponse = await axios.get(
+        `http://127.0.0.1:8000/api/owners/${user.OwnerID}/`
+      );
 
-      navigate("/LoginRestaurant");
+      setUser(response.data);
+      setUser(userDetailsResponse.data);
+
+      navigate("/ownerbankdetail");
     } catch (error) {
       console.error(error);
     }
@@ -101,6 +110,24 @@ const AddRestaurantDetails = () => {
           value={formData.restaurantPostalCode}
           onChange={handleChange}
           placeholder="Enter restaurant postal code"
+          required
+        />
+
+        <input
+          type="text"
+          name="openHour"
+          value={formData.openHour}
+          onChange={handleChange}
+          placeholder="Enter restaurant opening hours"
+          required
+        />
+
+        <input
+          type="text"
+          name="closeHour"
+          value={formData.closeHour}
+          onChange={handleChange}
+          placeholder="Enter restaurant closing hours"
           required
         />
 
