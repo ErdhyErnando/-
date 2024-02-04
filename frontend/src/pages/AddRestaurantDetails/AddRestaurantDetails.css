@@ -1,0 +1,40 @@
+.add-restaurant-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.add-restaurant-container h1,
+.add-restaurant-container p {
+  text-align: center;
+}
+
+.add-restaurant-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-restaurant-container input[type="text"],
+.add-restaurant-container input[type="email"],
+.add-restaurant-container input[type="tel"],
+.add-restaurant-container input[type="password"] {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-restaurant-container button {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-restaurant-container button:hover {
+  background-color: #333;
+}

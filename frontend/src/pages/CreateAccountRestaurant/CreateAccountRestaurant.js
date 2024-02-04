@@ -11,10 +11,6 @@ const CreateAccountRestaurant = () => {
     email: "",
     telephone: "",
     password: "",
-    restaurantName: "",
-    restaurantTelephone: "",
-    restaurantAddress: "",
-    restaurantPostalCode: "",
   });
 
   const { setUser } = useContext(UserContext);
@@ -44,31 +40,15 @@ const CreateAccountRestaurant = () => {
         }
       );
 
-      console.log("User signed up:", response.data); // log the user data after signup
-
-      // Store the user data in your context
-      setUser(response.data);
-      navigate("/LoginRestaurant");
-    } catch (error) {
-      console.error(error);
-    }
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/restaurants/",
-        {
-          RestaurantTelefonNummer: formData.restaurantTelephone,
-          RestaurantName: formData.restaurantName,
-          RestaurantAdresse: formData.restaurantAddress,
-          RestaurantPLZ: formData.restaurantPostalCode,
-          OwnerTelefonNummer: formData.telephone,
-        }
+      const userDetailsResponse = await axios.get(
+        `http://127.0.0.1:8000/api/owners/${response.data.OwnerID}/`
       );
 
       console.log("User signed up:", response.data); // log the user data after signup
 
       // Store the user data in your context
-      setUser(response.data);
-      navigate("/LoginRestaurant");
+      setUser(userDetailsResponse.data);
+      navigate("/addrestaurantdetails");
     } catch (error) {
       console.error(error);
     }

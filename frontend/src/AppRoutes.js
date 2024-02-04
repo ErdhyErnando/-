@@ -14,6 +14,7 @@ import RestaurantDashboard from "./pages/RestaurantDashboard/RestaurantDashboard
 import EditMenu from "./pages/RestaurantDashboard/EditMenu/EditMenu";
 import React, { useState } from "react";
 import UserContext from "./UserContext";
+import AddRestaurantDetails from "./pages/AddRestaurantDetails/AddRestaurantDetails";
 
 export default function AppRoutes() {
   const [user, setUser] = useState(null);
@@ -38,6 +39,10 @@ export default function AppRoutes() {
         <Route
           path="/createaccountrestaurant"
           element={<CreateAccountRestaurant />}
+        />
+        <Route
+          path="/addrestaurantdetails"
+          element={<AddRestaurantDetails />}
         />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/checkoutpage" element={<CheckoutPage />} />

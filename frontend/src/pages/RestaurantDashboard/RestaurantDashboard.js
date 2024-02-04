@@ -1,50 +1,40 @@
-import React, { useState } from "react";
-import "./RestaurantDashboard.css"; // Make sure to create an accompanying CSS file for styling
-import { sample_restaurant } from "../../restaurantData";
+import React, { useState, useEffect, useContext } from "react";
+import "./RestaurantDashboard.css";
+import UserContext from "../../UserContext";
+import axios from "axios";
 
 const RestaurantDashboard = () => {
-  // Filter the sample_restaurant array to get the restaurant with id: "1"
-  const selectedRestaurant = sample_restaurant.find(
-    (restaurant) => restaurant.id === "3"
-  );
+  const { user, setUser } = useContext(UserContext);
 
-  if (!selectedRestaurant) {
-    // Handle the case when the restaurant with id: "1" is not found
-    return <div>Restaurant not found</div>;
-  }
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/owners/${user.OwnerID}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-  // Dummy data for the purpose of this example
+        setUser(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, [setUser, user.OwnerID]);
+
   const incomingOrders = [
-    {
-      customerName: "Andrew Bernhardt",
-      address: "Dusseldorferstr. 27, 48054 Duisburg",
-      phone: "+491575776789",
-      items: [
-        { name: "Winger Bucket Special", quantity: 2, price: 20.58 },
-        { name: "Mashed Potato with Gravy", quantity: 3, price: 10.47 },
-      ],
-      total: 31.05,
-    },
-    // ... more incoming orders
+    // ... incoming orders
   ];
 
   const orderHistory = [
-    {
-      customerName: "Erdhy Ernando",
-      address: "Neudorfstr. 23, 48050 Duisburg",
-      phone: "+491575771234",
-      items: [
-        { name: "Winger Bucket Special", quantity: 1, price: 10.29 },
-        { name: "Chocolate Cookie", quantity: 3, price: 5.97 },
-      ],
-      status: "accepted",
-      total: 16.26,
-    },
-    // ... more past orders
+    // ... order history
   ];
 
-  // Functions to accept or reject orders would be here
-  // For example:
   const acceptOrder = (index) => {
     // Logic to accept order
   };
@@ -56,24 +46,24 @@ const RestaurantDashboard = () => {
   return (
     <div className="restaurant-dashboard">
       <h1>Restaurant Dashboard</h1>
-      {/* Restaurant details component */}
       <div className="restaurant-details">
-        <img src={selectedRestaurant.imageUrl} alt={selectedRestaurant.name} />
-        <h2>{selectedRestaurant.name}</h2>
-        <p>Königstraße 56, 47051 Duisburg</p>
-        <p>📞 0203 28951820</p>
+        <img src={user.RestaurantImage} alt={user.RestaurantName} />
+        <h2>{user.RestaurantName}</h2>
+        <p>
+          {user.RestaurantAdresse}
+          {user.RestaurantPLZ}
+        </p>
+        <p>{user.RestaurantTelefonNummer}</p>
         <button>Edit Restaurant Details</button>
         <button>Edit Menu</button>
       </div>
 
       <h2>Incoming Orders</h2>
-      {/* List incoming orders */}
       {incomingOrders.map((order, index) => (
         <div key={index} className="order">
           <h3>Delivery for {order.customerName}</h3>
           <p>{order.address}</p>
           <p>📞 {order.phone}</p>
-          {/* Order summary details */}
           <div className="order-summary">
             {order.items.map((item, itemIndex) => (
               <p key={itemIndex}>
@@ -88,13 +78,11 @@ const RestaurantDashboard = () => {
       ))}
 
       <h2>Order History</h2>
-      {/* List order history */}
       {orderHistory.map((order, index) => (
         <div key={index} className="order history">
           <h3>Delivery for {order.customerName}</h3>
           <p>{order.address}</p>
           <p>📞 {order.phone}</p>
-          {/* Order summary details */}
           <div className="order-summary">
             {order.items.map((item, itemIndex) => (
               <p key={itemIndex}>
