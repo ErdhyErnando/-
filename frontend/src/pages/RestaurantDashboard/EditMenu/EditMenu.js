@@ -35,6 +35,28 @@ function EditMenu() {
 
   console.log(user.MenuDetail);
 
+  const handleDelete = (MenuID) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this menu?"
+    );
+    if (confirm) {
+      axios
+        .delete(`http://127.0.0.1:8000/api/menus/${MenuID}/`)
+        .then(async (response) => {
+          // Fetch the updated data after a menu item is deleted
+          const ownerResponse = await axios.get(
+            `http://127.0.0.1:8000/api/owners/${user.OwnerID}/`
+          );
+          const restaurantResponse = await axios.get(
+            `http://127.0.0.1:8000/api/restaurants/${ownerResponse.data.RestaurantID}/`
+          );
+          setRestaurant(restaurantResponse.data);
+          setMenu(restaurantResponse.data.MenuDetail || []);
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
   return (
     <div className="d-flex flex-column justify-content-center align-items-center bg-light vh-100">
       <h1>List of Menus</h1>
@@ -76,7 +98,12 @@ function EditMenu() {
                   <button className="btn btn-sm btn-primary me-2">
                     <Link to="/editmenuupdate">Edit</Link>
                   </button>
-                  <button className="btn btn-sm btn-danger">Delete</button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={(e) => handleDelete(menuDetail.MenuID)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
