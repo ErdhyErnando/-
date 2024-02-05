@@ -93,7 +93,7 @@ function EditMenu() {
                 <td>{menuDetail.MenuName}</td>
                 <td>{menuDetail.MenuDescription}</td>
                 <td>{menuDetail.MenuImage}</td>
-                <td>{menuDetail.MenuRestaurant}</td>
+                <td>{menuDetail.RestaurantID}</td>
                 <td>
                   <button className="btn btn-sm btn-primary me-2">
                     <Link to="/editmenuupdate">Edit</Link>

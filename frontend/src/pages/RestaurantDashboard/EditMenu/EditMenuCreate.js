@@ -14,7 +14,7 @@ export default function EditMenuCreate() {
     MenuName: "",
     MenuDescription: "",
     MenuImage: null,
-    MenuRestaurant: null,
+    RestaurantID: null,
   });
 
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ export default function EditMenuCreate() {
     data.append("MenuName", formData.MenuName);
     data.append("MenuDescription", formData.MenuDescription);
     data.append("MenuImage", formData.MenuImage);
-    data.append("MenuRestaurant", user.RestaurantID);
+    data.append("RestaurantID", user.RestaurantID);
 
     try {
       const response = await axios.post(
