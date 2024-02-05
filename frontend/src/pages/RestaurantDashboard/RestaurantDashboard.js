@@ -5,7 +5,7 @@ import UserContext from "../../UserContext";
 import axios from "axios";
 
 const RestaurantDashboard = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [restaurant, setRestaurant] = useState({});
 
   useEffect(() => {
@@ -21,7 +21,6 @@ const RestaurantDashboard = () => {
         );
 
         setRestaurant(restaurantResponse.data);
-        setUser(restaurantResponse.data);
       } catch (error) {
         console.error(error);
       }

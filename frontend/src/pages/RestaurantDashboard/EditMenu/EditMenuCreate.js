@@ -4,7 +4,7 @@ import axios from "axios";
 import UserContext from "../../../UserContext";
 
 export default function EditMenuCreate() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   console.log(user.RestaurantID);
 

@@ -5,19 +5,49 @@ import UserContext from "../../../UserContext";
 import { Link } from "react-router-dom";
 
 function EditMenu() {
-  const { user, setUser } = useContext(UserContext);
-  const [menu, setMenu] = useState(user.MenuDetail);
+  const { user } = useContext(UserContext);
+  const [restaurant, setRestaurant] = useState({});
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const ownerResponse = await axios.get(
+          `http://127.0.0.1:8000/api/owners/${user.OwnerID}/`
+        );
+
+        console.log(ownerResponse.data); // Log owner data to console
+        const restaurantResponse = await axios.get(
+          `http://127.0.0.1:8000/api/restaurants/${ownerResponse.data.RestaurantID}/`
+        );
+        setRestaurant(restaurantResponse.data);
+        setMenu(restaurantResponse.data.MenuDetail || []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDetails();
+  }, []);
+
+  // setMenu(restaurantResponse.data);
+
+  console.log(restaurant.RestaurantName);
 
   console.log(user.MenuDetail);
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center bg-light vh-100">
       <h1>List of Menus</h1>
+      <h2>
+        <Link to="/restaurantdashboard">Back to Dashboard</Link>
+      </h2>
       <div className="w-75 rounded bg-white border shadow p-4">
         <div className="d-flex justify-content-end">
-          <Link to="/editmenucreate" className="btn btn-success">
-            Add +
-          </Link>
+          <button>
+            <Link to="/editmenucreate" className="btn btn-success">
+              Add +
+            </Link>
+          </button>
         </div>
         <table className="table table-stripend">
           <thead>
@@ -43,7 +73,9 @@ function EditMenu() {
                 <td>{menuDetail.MenuImage}</td>
                 <td>{menuDetail.MenuRestaurant}</td>
                 <td>
-                  <button className="btn btn-sm btn-primary me-2">Edit</button>
+                  <button className="btn btn-sm btn-primary me-2">
+                    <Link to="/editmenuupdate">Edit</Link>
+                  </button>
                   <button className="btn btn-sm btn-danger">Delete</button>
                 </td>
               </tr>
