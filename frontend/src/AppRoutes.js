@@ -17,6 +17,8 @@ import UserContext from "./UserContext";
 import AddRestaurantDetails from "./pages/AddRestaurantDetails/AddRestaurantDetails";
 import CustomerBankDetails from "./pages/CustomerBankDetails/CustomerBankDetails";
 import OwnerBankDetails from "./pages/OwnerBankDetails/OwnerBankDetails";
+import EditMenuCreate from "./pages/RestaurantDashboard/EditMenu/EditMenuCreate";
+import EditMenuUpdate from "./pages/RestaurantDashboard/EditMenu/EditMenuUpdate";
 
 export default function AppRoutes() {
   const [user, setUser] = useState(null);
@@ -53,6 +55,8 @@ export default function AppRoutes() {
         <Route path="/orderstatus" element={<OrderStatus />} />
         <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
         <Route path="/restaurantdashboard/edit" element={<EditMenu />} />
+        <Route path="/editmenucreate" element={<EditMenuCreate />} />
+        <Route path="/editmenuupdate" element={<EditMenuUpdate />} />
       </Routes>
     </UserContext.Provider>
   );
