@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Price from "../../components/Price/Price";
-import Title from "../../components/Title/Title";
 import { useCart } from "../../hooks/useCart";
 import classes from "./cartPage.module.css";
-import NotFound from "../../components/NotFound/NotFound";
 import Header from "../../components/Header/Header";
+import NotFound from "../../components/NotFound/NotFound";
+import Price from "../../components/Price/Price";
+import Title from "../../components/Title/Title";
 
 export default function CartPage() {
   const { cart, removeFromCart, changeQuantity } = useCart();
@@ -20,16 +20,13 @@ export default function CartPage() {
         <div className={classes.container}>
           <ul className={classes.list}>
             {cart.items.map((item) => (
-              <li key={item.food.id}>
+              <li key={item.MenuID}>
                 <div>
-                  <img
-                    src={`/foods/${item.food.imageUrl}`}
-                    alt={item.food.name}
-                  />
+                  <img src={item.MenuImage} alt={item.MenuName} />
                 </div>
 
                 <div>
-                  <Link to={`/food/${item.food.id}`}>{item.food.name}</Link>
+                  <Link to={`/food/${item.MenuID}`}>{item.MenuName}</Link>
                 </div>
 
                 <div>
@@ -53,13 +50,13 @@ export default function CartPage() {
                 </div>
 
                 <div>
-                  <Price price={item.price} />
+                  <Price price={item.MenuPrice} />
                 </div>
 
                 <div>
                   <button
                     className={classes.remove_button}
-                    onClick={() => removeFromCart(item.food.id)}
+                    onClick={() => removeFromCart(item.MenuID)}
                   >
                     Remove
                   </button>

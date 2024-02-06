@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { sample_foods } from "../data";
 
 const CartContext = createContext(null);
 const CART_KEY = "cart";
@@ -13,10 +12,12 @@ export default function CartProvider({ children }) {
   const initCart = getCartFromLocalStorage();
   const [cartItems, setCartItems] = useState(initCart.items);
   const [totalPrice, setTotalPrice] = useState(initCart.totalPrice);
-  const [totalCount, setTotalCount] = useState(3);
+  const [totalCount, setTotalCount] = useState(initCart.totalCount);
 
   useEffect(() => {
-    const totalPrice = sum(cartItems.map((item) => item.price));
+    const totalPrice = sum(
+      cartItems.map((item) => item.MenuPrice * item.quantity)
+    );
     const totalCount = sum(cartItems.map((item) => item.quantity));
 
     setTotalPrice(totalPrice);
@@ -41,35 +42,33 @@ export default function CartProvider({ children }) {
     return items.reduce((prevValue, curValue) => prevValue + curValue, 0);
   };
 
-  const removeFromCart = (foodId) => {
+  const removeFromCart = (MenuID) => {
     const filteredCartItems = cartItems.filter(
-      (item) => item.food.id !== foodId
+      (item) => item.MenuID !== MenuID
     );
     setCartItems(filteredCartItems);
   };
 
   const changeQuantity = (cartItem, newQuantity) => {
-    const { food } = cartItem;
-
     const changedCartItem = {
       ...cartItem,
       quantity: newQuantity,
-      price: food.price * newQuantity,
+      MenuPrice: cartItem.MenuPrice * newQuantity,
     };
 
     setCartItems(
       cartItems.map((item) =>
-        item.food.id === food.id ? changedCartItem : item
+        item.MenuID === cartItem.MenuID ? changedCartItem : item
       )
     );
   };
 
-  const addToCart = (food) => {
-    const cartItem = cartItems.find((item) => item.food.id === food.id);
+  const addToCart = (menu) => {
+    const cartItem = cartItems.find((item) => item.MenuID === menu.MenuID);
     if (cartItem) {
       changeQuantity(cartItem, cartItem.quantity + 1);
     } else {
-      setCartItems([...cartItems, { food, quantity: 1, price: food.price }]);
+      setCartItems([...cartItems, { ...menu, quantity: 1 }]);
     }
   };
 

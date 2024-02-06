@@ -43,11 +43,11 @@ export default function RestaurantDetail() {
             }}
           />
           <div>
-            <p>{restaurant.RestaurantAdresse}</p>
-            <p>{restaurant.RestaurantPLZ}</p>
-            <p>{restaurant.RestaurantTelefonNummer}</p>
-            <p>Open: {restaurant.OpenHour}</p>
-            <p>Close: {restaurant.CloseHour}</p>
+            <p>🏠{restaurant.RestaurantAdresse}</p>
+            <p>📍{restaurant.RestaurantPLZ}</p>
+            <p> ☎️{restaurant.RestaurantTelefonNummer}</p>
+            <p> 📭 Open: {restaurant.OpenHour}</p>
+            <p> 📪Close: {restaurant.CloseHour}</p>
           </div>
         </div>
         <h4 className={styles.centerText}>Menu:</h4>
