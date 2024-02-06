@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./header.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 import UserContext from "../../UserContext"; // import UserContext
 import axios from "axios";
@@ -8,10 +8,8 @@ import axios from "axios";
 export default function Header() {
   const { cart } = useCart();
   const navigate = useNavigate();
-
+  // const { CustomerID } = useParams();
   const { user, setUser } = useContext(UserContext); // use UserContext
-
-  console.log(user.CustomerVorname); // log the user object
 
   const handleLogout = async () => {
     try {

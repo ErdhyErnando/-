@@ -1,61 +1,63 @@
-import React, { useEffect, useReducer, useContext } from "react";
-import Search from "../../components/Search/Search";
-import Tags from "../../components/Tags/Tags";
+import React, { useEffect, useContext, useState } from "react";
 import Thumbnails from "../../components/ThumbnailsRestaurant/ThumbnailsRestaurant";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
-import {
-  getAll,
-  getAllByTags,
-  getAllTags,
-  search,
-} from "../../services/restaurantService";
-import NotFound from "../../components/NotFound/NotFound";
-import UserContext from "../../UserContext"; // Update this path if needed
-
-const initialState = { foods: [], tags: [] };
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "FOODS_LOADED":
-      return { ...state, foods: action.payload };
-    case "TAGS_LOADED":
-      return { ...state, tags: action.payload };
-    default:
-      return state;
-  }
-};
+// import NotFound from "../../components/NotFound/NotFound";
+import UserContext from "../../UserContext";
+import axios from "axios";
 
 export default function HomePage() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { foods, tags } = state;
-  const { searchTerm, tag } = useParams();
+  // const { CustomerID } = useParams();
+  const [PLZ, setPLZ] = useState({});
+  const { user } = useContext(UserContext);
+  // const [restaurants, setRestaurants] = useState([]);
 
-  const { user } = useContext(UserContext); // Access user data from context
+  // const [values, setValues] = useState({
+  //   CustomerVorname: "",
+  //   CustomerNachname: "",
+  //   CustomerPasswort: "",
+  //   CustomerEmail: "",
+  //   CustomerTelefonNummer: "",
+  //   CustomerAdresse: "",
+  //   CustomerPLZ: "",
+  // });
+
+  // const navigate = useNavigate();
 
   useEffect(() => {
-    getAllTags().then((tags) =>
-      dispatch({ type: "TAGS_LOADED", payload: tags })
-    );
+    const fetchDetails = async () => {
+      try {
+        const customerResponse = await axios.get(
+          `http://127.0.0.1:8000/api/customers/${user.CustomerID}/`
+        );
 
-    const loadFoods = tag
-      ? getAllByTags(tag)
-      : searchTerm
-      ? search(searchTerm)
-      : getAll();
+        console.log(customerResponse.data); // Log owner data to console
+        // const plzResponse = await axios.get(
+        //   `http://127.0.0.1:8000/api/customers/${customerResponse.data.CustomerPLZ}/`
+        // );
 
-    loadFoods.then((foods) =>
-      dispatch({ type: "FOODS_LOADED", payload: foods })
-    );
-  }, [searchTerm, tag]);
+        const customerPLZ = customerResponse.data.CustomerPLZ;
+        console.log("CustomerPLZ:", customerPLZ);
+
+        // setPLZ(plzResponse.data);
+        setPLZ(customerPLZ);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDetails();
+  }, []);
+
+  console.log(PLZ.data);
 
   return (
     <>
       <Header />
-      <Search />
+      {/* <Search />
       <Tags tags={tags} />
-      {foods.length === 0 && <NotFound linkText="Reset Search" />}
-      <Thumbnails foods={foods} />
+      {foods.length === 0 && <NotFound linkText="Reset Search" />} */}
+      {/* <Thumbnails foods={foods} /> */}
     </>
   );
 }
