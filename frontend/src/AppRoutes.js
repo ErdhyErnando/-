@@ -60,6 +60,7 @@ export default function AppRoutes() {
         <Route path="/restaurantdashboard/edit" element={<EditMenu />} />
         <Route path="/editmenucreate" element={<EditMenuCreate />} />
         <Route path="/editmenuupdate/:MenuID" element={<EditMenuUpdate />} />
+        <Route path="/foodpage/:MenuID" element={<FoodPage />} />
       </Routes>
     </UserContext.Provider>
   );

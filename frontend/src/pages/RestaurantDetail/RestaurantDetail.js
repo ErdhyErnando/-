@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import axios from "axios";
 import UserContext from "../../UserContext";
 import styles from "../HomePage/HomePage.module.css"; // Import styles from HomePage
+import { Link } from "react-router-dom";
 
 export default function RestaurantDetail() {
   const { user } = useContext(UserContext);
@@ -53,15 +54,17 @@ export default function RestaurantDetail() {
         <ul className={styles.list}>
           {menu.map((item) => (
             <li key={item.MenuID} className={styles.listItem}>
-              <img
-                src={item.MenuImage}
-                alt={item.MenuName}
-                style={{
-                  width: "300px",
-                  height: "150px",
-                  objectFit: "cover",
-                }}
-              />
+              <Link to={`/foodpage/${item.MenuID}`}>
+                <img
+                  src={item.MenuImage}
+                  alt={item.MenuName}
+                  style={{
+                    width: "300px",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
+                />
+              </Link>
               <div className={styles.centeredText}>
                 <div>{item.MenuName}</div>
                 <div>{item.MenuDescription}</div>
