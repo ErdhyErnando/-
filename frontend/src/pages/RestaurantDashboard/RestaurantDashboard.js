@@ -5,7 +5,7 @@ import UserContext from "../../UserContext";
 import axios from "axios";
 
 const RestaurantDashboard = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [restaurant, setRestaurant] = useState({});
 
   useEffect(() => {
@@ -28,6 +28,22 @@ const RestaurantDashboard = () => {
 
     fetchDetails();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      // Call the logout API
+      await axios.post("http://127.0.0.1:8000/api/customers/logout/");
+
+      console.log("User logged out successfully");
+
+      // Clear the user data when logging out
+      setUser(null);
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const incomingOrders = [
     // ... incoming orders
@@ -66,6 +82,7 @@ const RestaurantDashboard = () => {
             height: "200px",
             overflow: "hidden",
             marginRight: "20px",
+            marginTop: "40px",
           }}
         >
           <img
@@ -83,7 +100,9 @@ const RestaurantDashboard = () => {
           <button onClick={handleEditMenu}>Edit Menu</button>
         </div>
         <div>
-          <button>Log out</button>
+          <button onClick={handleLogout} style={{ marginLeft: "10px" }}>
+            Log out
+          </button>
         </div>
       </div>
 

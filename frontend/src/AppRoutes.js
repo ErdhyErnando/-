@@ -35,7 +35,10 @@ export default function AppRoutes() {
           path="/restaurantdetail/tag/:tag"
           element={<RestaurantDetail />}
         />
-        <Route path="/restaurantdetail/food/:id" element={<FoodPage />} />
+        <Route
+          path="/restaurantdetail/:RestaurantID"
+          element={<RestaurantDetail />}
+        />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/createaccount" element={<CreateAccount />} />

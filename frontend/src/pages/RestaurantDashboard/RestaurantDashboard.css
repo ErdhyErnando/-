@@ -1,10 +1,23 @@
-RESTAURNAT DASHBOARD CSS:
+
 .restaurant-dashboard {
   width: 100%;
   max-width: 1200px; /* You can adjust this value to suit your needs */
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box; /* This will include padding and border in the element's total width and height */
+}
+
+.restaurant-dashboard h1 {
+  font-weight: bold;
+  text-align: center;
+  
+}
+
+.restaurant-dashboard h2 {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 40px;
+  
 }
 
 .restaurant-details {

@@ -33,8 +33,6 @@ function EditMenu() {
 
   console.log(restaurant.RestaurantName);
 
-  console.log(user.MenuDetail);
-
   const handleDelete = (MenuID) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this menu?"
@@ -59,7 +57,9 @@ function EditMenu() {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center bg-light vh-100">
-      <h1>List of Menus</h1>
+      <h1>
+        <strong>List of Menus</strong>
+      </h1>
       <h2>
         <Link to="/restaurantdashboard">Back to Dashboard</Link>
       </h2>
@@ -79,7 +79,7 @@ function EditMenu() {
                 <th>Menu Name</th>
                 <th>Menu Description</th>
                 <th>Menu Image</th>
-                <th>Menu Restaurant</th>
+                <th>Restaurant ID</th>
                 <th>Actions</th>
               </tr>
             </thead>

@@ -1,9 +1,30 @@
+
 .create-account-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 0;
+  }
+
+  .create-account-container a {
+    text-align: center;
+    display: block;
+    color: #007BFF; /* Change this to your preferred color */
+    text-decoration: none; /* Removes the underline */
+    margin-bottom: 10px; /* Adds some space below the link */
+    display: inline-block; /* Allows the margin to take effect */
+  }
+  
+  .create-account-container a:hover {
+    color: #0056b3; /* Darkens the color when the link is hovered over */
+    text-decoration: underline; /* Adds an underline when the link is hovered over */
+  }
+
+  .create-account-container h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
   }
   
   .create-account-container h1,
