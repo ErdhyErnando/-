@@ -81,6 +81,8 @@ const Login = () => {
           Don't have an account? Create your customer account here
         </Link>
 
+        <Link to="/LoginRestaurant">Log in as a restaurant owner</Link>
+
         <button type="submit">Log in</button>
       </form>
     </div>

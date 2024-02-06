@@ -82,6 +82,9 @@ const RestaurantDashboard = () => {
           <p>📞 {restaurant.RestaurantTelefonNummer}</p>
           <button onClick={handleEditMenu}>Edit Menu</button>
         </div>
+        <div>
+          <button>Log out</button>
+        </div>
       </div>
 
       <h2>Incoming Orders</h2>
