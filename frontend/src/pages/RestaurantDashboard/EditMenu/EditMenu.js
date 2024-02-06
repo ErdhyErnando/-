@@ -69,46 +69,59 @@ function EditMenu() {
             Add +
           </Link>
         </div>
-        <table className="table table-stripend">
-          <thead>
-            <tr>
-              <th>Menu ID</th>
-              <th>Menu Price</th>
-              <th>Menu Type</th>
-              <th>Menu Name</th>
-              <th>Menu Description</th>
-              <th>Menu Image</th>
-              <th>Menu Restaurant</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {menu.map((menuDetail, i) => (
-              <tr key={i}>
-                <td>{menuDetail.MenuID}</td>
-                <td>{menuDetail.MenuPrice}</td>
-                <td>{menuDetail.MenuTyp}</td>
-                <td>{menuDetail.MenuName}</td>
-                <td>{menuDetail.MenuDescription}</td>
-                <td>{menuDetail.MenuImage}</td>
-                <td>{menuDetail.RestaurantID}</td>
-                <td>
-                  <button className="btn btn-sm btn-primary me-2">
-                    <Link to={`/editmenuupdate/${menuDetail.MenuID}`}>
-                      Edit
-                    </Link>
-                  </button>
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={(e) => handleDelete(menuDetail.MenuID)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="table-responsive">
+          <table className="table table-stripend">
+            <thead>
+              <tr>
+                <th>Menu ID</th>
+                <th>Menu Price</th>
+                <th>Menu Type</th>
+                <th>Menu Name</th>
+                <th>Menu Description</th>
+                <th>Menu Image</th>
+                <th>Menu Restaurant</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {menu.map((menuDetail, i) => (
+                <tr key={i}>
+                  <td>{menuDetail.MenuID}</td>
+                  <td>{menuDetail.MenuPrice}</td>
+                  <td>{menuDetail.MenuTyp}</td>
+                  <td>{menuDetail.MenuName}</td>
+                  <td>{menuDetail.MenuDescription}</td>
+                  <td>
+                    <img
+                      src={menuDetail.MenuImage}
+                      alt={menuDetail.MenuName}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  </td>
+                  <td>{menuDetail.RestaurantID}</td>
+                  <td>
+                    <Link to={`/editmenuupdate/${menuDetail.MenuID}`}>
+                      <button
+                        className="btn btn-sm btn-primary me-2 text-white"
+                        style={{ width: "80px", height: "30px" }}
+                      >
+                        Edit /
+                      </button>
+                    </Link>
+
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={(e) => handleDelete(menuDetail.MenuID)}
+                      style={{ width: "80px", height: "30px" }}
+                    >
+                      Delete -
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

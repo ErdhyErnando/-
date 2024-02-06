@@ -56,15 +56,32 @@ const RestaurantDashboard = () => {
   return (
     <div className="restaurant-dashboard">
       <h1>Restaurant Dashboard</h1>
-      <div className="restaurant-details">
-        <img src={restaurant.RestaurantImage} alt={restaurant.RestaurantName} />
-        <h2>{restaurant.RestaurantName}</h2>
-        <p>
-          {restaurant.RestaurantAdresse}
-          {restaurant.RestaurantPLZ}
-        </p>
-        <p>{restaurant.RestaurantTelefonNummer}</p>
-        <button onClick={handleEditMenu}>Edit Menu</button>
+      <div
+        className="restaurant-details"
+        style={{ display: "flex", flexDirection: "row" }}
+      >
+        <div
+          style={{
+            width: "300px",
+            height: "200px",
+            overflow: "hidden",
+            marginRight: "20px",
+          }}
+        >
+          <img
+            src={restaurant.RestaurantImage}
+            alt={restaurant.RestaurantName}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
+        <div>
+          <h2>{restaurant.RestaurantName}</h2>
+          <p>
+            🏠 {restaurant.RestaurantAdresse}, {restaurant.RestaurantPLZ}
+          </p>
+          <p>📞 {restaurant.RestaurantTelefonNummer}</p>
+          <button onClick={handleEditMenu}>Edit Menu</button>
+        </div>
       </div>
 
       <h2>Incoming Orders</h2>

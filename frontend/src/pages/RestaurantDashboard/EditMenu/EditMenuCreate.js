@@ -96,6 +96,7 @@ export default function EditMenuCreate() {
               <option value="appetizer">Appetizer</option>
               <option value="main course">Main Course</option>
               <option value="dessert">Dessert</option>
+              <option value="Beverage">Beverage</option>
             </select>
           </div>
           <div className="mb-3">
