@@ -33,3 +33,8 @@ button {
   margin-right: 10px;
   cursor: pointer;
 }
+
+.editbutton-link {
+  color:#fff  ;
+  text-decoration: none;
+}

@@ -65,11 +65,9 @@ function EditMenu() {
       </h2>
       <div className="w-75 rounded bg-white border shadow p-4">
         <div className="d-flex justify-content-end">
-          <button>
-            <Link to="/editmenucreate" className="btn btn-success">
-              Add +
-            </Link>
-          </button>
+          <Link to="/editmenucreate" className="btn btn-success">
+            Add +
+          </Link>
         </div>
         <table className="table table-stripend">
           <thead>
@@ -96,7 +94,9 @@ function EditMenu() {
                 <td>{menuDetail.RestaurantID}</td>
                 <td>
                   <button className="btn btn-sm btn-primary me-2">
-                    <Link to="/editmenuupdate">Edit</Link>
+                    <Link to={`/editmenuupdate/${menuDetail.MenuID}`}>
+                      Edit
+                    </Link>
                   </button>
                   <button
                     className="btn btn-sm btn-danger"

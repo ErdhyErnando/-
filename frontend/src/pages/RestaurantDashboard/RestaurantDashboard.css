@@ -1,11 +1,18 @@
+RESTAURNAT DASHBOARD CSS:
 .restaurant-dashboard {
-  width: 80%;
+  width: 100%;
+  max-width: 1200px; /* You can adjust this value to suit your needs */
   margin: 0 auto;
   padding: 20px;
+  box-sizing: border-box; /* This will include padding and border in the element's total width and height */
 }
 
 .restaurant-details {
   text-align: center;
+  display: flex; /* This will make the child elements (the img, h2, p, and button) line up in a row */
+  flex-direction: column; /* This will make the child elements stack vertically */
+  align-items: center; /* This will center the child elements horizontally */
+  justify-content: center; /* This will center the child elements vertically */
 }
 
 .logo-placeholder {
@@ -13,7 +20,6 @@
   height: 100px;
   border: 1px solid #000;
   margin: 0 auto;
-  float: left;
 }
 
 .order,
@@ -21,4 +27,14 @@
   border: 1px solid #000;
   margin-bottom: 20px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsive design for screens smaller than 600px */
+@media (max-width: 600px) {
+  .restaurant-details, .order, .order.history {
+    align-items: flex-start;
+  }
 }
