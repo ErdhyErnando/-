@@ -1,90 +1,72 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
-import { useCart } from "../../hooks/useCart";
-import classes from "./cartPage.module.css";
-import Header from "../../components/Header/Header";
-import NotFound from "../../components/NotFound/NotFound";
-import Price from "../../components/Price/Price";
-import Title from "../../components/Title/Title";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import OrderContext from "../../OrderContext";
 
-export default function CartPage() {
-  const { cart, removeFromCart, changeQuantity } = useCart();
-  const { RestaurantID } = useParams();
+const CartPage = () => {
+  const { orderID } = useContext(OrderContext);
+  const [orderDetails, setOrderDetails] = useState(null);
 
-  const itemsForCurrentRestaurant = cart.items.filter(
-    (item) => item.RestaurantID === RestaurantID
-  );
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const orderResponse = await axios.get(
+          `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
+        );
 
-  console.log(itemsForCurrentRestaurant.length);
+        console.log(orderResponse.data); // Log order data to console
+
+        setOrderDetails(orderResponse.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDetails();
+  }, [orderID]);
+
+  const deleteMenuItem = async (OrderedMenuItemID) => {
+    console.log(OrderedMenuItemID);
+    try {
+      await axios.delete(
+        `http://127.0.0.1:8000/api/ordered-menu-items/${OrderedMenuItemID}/`
+      );
+
+      // Update order details
+      const updatedOrderResponse = await axios.get(
+        `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
+      );
+      setOrderDetails(updatedOrderResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (!orderDetails) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <Header />
-      <Title title="Cart Page" margin="1.5rem 0 0 2.5rem" />
-
-      {itemsForCurrentRestaurant.length === 0 ? (
-        <NotFound message="Cart Page is Empty!" />
-      ) : (
-        <div className={classes.container}>
-          <ul className={classes.list}>
-            {itemsForCurrentRestaurant.map((item) => (
-              <li key={item.MenuID}>
-                <div>
-                  <img src={item.MenuImage} alt={item.MenuName} />
-                </div>
-
-                <div>
-                  <Link to={`/food/${item.MenuID}`}>{item.MenuName}</Link>
-                </div>
-
-                <div>
-                  <select
-                    value={item.quantity}
-                    onChange={(e) =>
-                      changeQuantity(item, Number(e.target.value))
-                    }
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                  </select>
-                </div>
-
-                <div>
-                  <Price price={item.MenuPrice} />
-                </div>
-
-                <div>
-                  <button
-                    className={classes.remove_button}
-                    onClick={() => removeFromCart(item.MenuID)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className={classes.checkout}>
-            <div>
-              <div className={classes.foods_count}>{cart.totalCount}</div>
-              <div className={classes.total_price}>
-                <Price price={cart.totalPrice} />
-              </div>
-            </div>
-
-            <Link to="/checkoutpage">Proceed To Checkout</Link>
-          </div>
+    <div>
+      <h1>Order Details</h1>
+      <p>Status: {orderDetails.OrderStatus}</p>
+      <p>Date: {orderDetails.OrderDate}</p>
+      <h2>Items:</h2>
+      {orderDetails.OrderItems.map((item) => (
+        <div key={item.OrderedMenuItemID}>
+          <h3>{item.MenuName}</h3>
+          <p>Type: {item.MenuTyp}</p>
+          <p>Description: {item.MenuDesc}</p>
+          <p>Price: {item.MenuPrice}</p>
+          <p>Quantity: {item.QuantityOrdered}</p>
+          <p>Total Price: {item.OrderedMenuItemPrice}</p>
+          <button onClick={() => deleteMenuItem(item.OrderedMenuItemID)}>
+            Delete
+          </button>
         </div>
-      )}
-    </>
+      ))}
+      <h2>Total Order Price: {orderDetails.OrderPrice}</h2>
+    </div>
   );
-}
+};
+
+export default CartPage;

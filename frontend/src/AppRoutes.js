@@ -42,7 +42,7 @@ export default function AppRoutes() {
             path="/restaurantdetail/:RestaurantID"
             element={<RestaurantDetail />}
           />
-          <Route path="/cart/:RestaurantID" element={<CartPage />} />
+          <Route path="/cart/" element={<CartPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/createaccount" element={<CreateAccount />} />
           <Route path="/customerbankdetail" element={<CustomerBankDetails />} />
@@ -58,7 +58,7 @@ export default function AppRoutes() {
           />
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/checkoutpage" element={<CheckoutPage />} />
-          <Route path="/orderstatus" element={<OrderStatus />} />
+          <Route path="/orderstatus" ƒ element={<OrderStatus />} />
           <Route
             path="/restaurantdashboard"
             element={<RestaurantDashboard />}
