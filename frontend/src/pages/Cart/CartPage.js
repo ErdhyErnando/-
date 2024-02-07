@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import OrderContext from "../../OrderContext";
-import "./cartPage.module.css";
+import styles from "./cartPage.module.css";
+import Price from "../../components/Price/Price";
 
 const CartPage = () => {
   const { orderID } = useContext(OrderContext);
@@ -79,25 +80,25 @@ const CartPage = () => {
   }
 
   return (
-    <div className="cart-container">
-      <header className="cart-header">
+    <div className={styles.cartcontainer}>
+      <header className={styles.cartheader}>
         <img
           src={restaurantDetails.RestaurantImage}
           alt="Restaurant"
-          className="restaurant-logo"
+          className={styles.restaurantlogo}
         />
-        <div className="restaurant-info">
-          <h1 className="restaurant-name">
+        <div className={styles.restaurantinfo}>
+          <h1 className={styles.restaurantname}>
             {restaurantDetails.RestaurantName}
           </h1>
-          <p className="restaurant-address">
+          <p className={styles.restaurantaddress}>
             Address: {restaurantDetails.RestaurantAdresse},{" "}
             {restaurantDetails.RestaurantPLZ}
           </p>
-          <p className="telephone-number">
+          <p className={styles.telephonenumber}>
             Telephone Number: {restaurantDetails.RestaurantTelefonNummer}
           </p>
-          <p className="restaurant-hours">
+          <p className={styles.restauranthours}>
             Opens at: {restaurantDetails.OpenHour} - Closes at:{" "}
             {restaurantDetails.CloseHour}
           </p>
@@ -110,7 +111,7 @@ const CartPage = () => {
       <h2>Items:</h2>
 
       {orderDetails.OrderItems.map((item) => (
-        <div key={item.OrderedMenuItemID}>
+        <div key={item.OrderedMenuItemID} className={styles.orderitem}>
           <h3>{item.MenuName}</h3>
           <p>Type: {item.MenuTyp}</p>
           <p>Description: {item.MenuDesc}</p>
@@ -128,10 +129,9 @@ const CartPage = () => {
             id={`note-${item.OrderedMenuItemID}`}
           />
 
-          <p>Total Price: {item.OrderedMenuItemPrice}</p>
-          <button onClick={() => deleteMenuItem(item.OrderedMenuItemID)}>
-            Delete
-          </button>
+          <p className={styles.totalprice}>
+            Total Price: <Price price={item.OrderedMenuItemPrice} />
+          </p>
           <button
             onClick={() =>
               editMenuItem(
@@ -141,18 +141,31 @@ const CartPage = () => {
                 document.getElementById(`note-${item.OrderedMenuItemID}`).value
               )
             }
+            className={styles.editButton}
           >
             Edit
           </button>
+          <button
+            onClick={() => deleteMenuItem(item.OrderedMenuItemID)}
+            className={styles.deleteButton}
+          >
+            Delete
+          </button>
         </div>
       ))}
-      <h2>Total Order Price: {orderDetails.OrderPrice}</h2>
-      <Link to="/orderstatus">
-        <button>Proceed to Checkout</button>
-      </Link>
-      <Link to={`/restaurantdetail/${orderID.OrderRestaurant}`}>
-        <button>Return to Restaurant</button>
-      </Link>
+      <h2 className={styles.totalorderprice}>
+        Total Order Price: <Price price={orderDetails.OrderPrice} />
+      </h2>
+      <div className={styles.cartfooter}>
+        <Link to="/orderstatus">
+          <button className={styles.checkoutButton}>Proceed to Checkout</button>
+        </Link>
+        <Link to={`/restaurantdetail/${orderID.OrderRestaurant}`}>
+          <button className={styles.returntorestaurant}>
+            Return to Restaurant
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };
