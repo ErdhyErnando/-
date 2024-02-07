@@ -1,37 +1,49 @@
-import React from "react";
-import "./OrderStatus.css"; // Make sure to create an accompanying CSS file for styling
+import React, { useEffect, useState, useContext } from "react";
+import "./OrderStatus.css";
 import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import OrderContext from "../../OrderContext";
 
 const OrderStatus = () => {
-  // Dummy data to simulate fetched order status and history
-  const orderStatus = {
-    isPaymentSuccessful: true,
-    isFoodBeingPrepared: true,
-    isFoodBeingDelivered: true,
-    isOrderComplete: true,
-  };
-
-  const orderHistory = [
-    {
-      restaurantName: "KFC",
-      address: "Kingstonstraße 5a, 47055 Duisburg",
-      time: "05.02.2023 - 11:43 am",
-      totalPrice: "14,27 €",
-      status: "ongoing",
-      items: [
-        {
-          name: "Winger Bucket Special",
-          price: "10,29 €",
-        },
-      ],
-      deliveryFee: "2,49 €",
-      platformFee: "1,49 €",
-    },
-    // ... Add more orders as needed
-  ];
-
+  const [orderHistory, setOrderHistory] = useState([]);
   const navigate = useNavigate();
+  const { orderID } = useContext(OrderContext);
+  const [restaurantDetails, setRestaurantDetails] = useState([]);
+
+  const [menuDetails, setMenuDetails] = useState([]);
+
+  console.log(orderID.OrderID);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const orderResponse = await axios.get(
+          `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
+        );
+
+        console.log(orderResponse.data); // Log order data to console
+
+        setOrderHistory(orderResponse.data);
+        setMenuDetails(orderResponse.data.OrderItems);
+
+        // Fetch restaurant details
+        const restaurantResponse = await axios.get(
+          `http://127.0.0.1:8000/api/restaurants/${orderID.OrderRestaurant}/`
+        );
+
+        console.log(restaurantResponse.data); // Log restaurant data to console
+
+        setRestaurantDetails(restaurantResponse.data);
+
+        // setMenuDetails(restaurantResponse.data.MenuDetail);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDetails();
+  }, [orderID]);
 
   const backToHomePage = () => {
     navigate("/homepage");
@@ -39,48 +51,39 @@ const OrderStatus = () => {
 
   return (
     <div>
-      {" "}
       <Header />
       <div className="order-status-page">
         <div className="order-status-header">
           <h1>Order Status</h1>
-          {/* Status icons would go here */}
         </div>
 
-        <div className="order-history">
-          <h2>Order History</h2>
-          {orderHistory.map((order, index) => (
+        <div className="restaurant-details">
+          <h2>Restaurant Details</h2>
+          <p>Order ID: {orderHistory.OrderID}</p>
+          <p>Order Date: {orderHistory.OrderDate}</p>
+          <p>Status: {orderHistory.OrderStatus}</p>
+          <p>Name: {restaurantDetails.RestaurantName}</p>
+          <p>Address: {restaurantDetails.RestaurantAdresse}</p>
+          <p>Phone: {restaurantDetails.RestaurantTelefonNummer}</p>
+          <img src={restaurantDetails.RestaurantImage} alt="Restaurant" />
+        </div>
+
+        <div className="order-menu">
+          <h2>Ordered Menu</h2>
+          {menuDetails.map((menuDetail, index) => (
             <div key={index} className="order">
-              <h3>{order.restaurantName}</h3>
-              <p>{order.address}</p>
-              <p>{order.time}</p>
-              <p>Total: {order.totalPrice}</p>
-              {/* Order summary details would be mapped here */}
-              <div className="order-summary">
-                {/* Map through items and display them */}
-                {order.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="item">
-                    <p>{item.name}</p>
-                    <p>{item.price}</p>
-                  </div>
-                ))}
-                <p>
-                  Subtotal:{" "}
-                  {order.items
-                    .reduce((total, item) => total + parseFloat(item.price), 0)
-                    .toFixed(2)}{" "}
-                  €
-                </p>
-                <p>Delivery fee: {order.deliveryFee}</p>
-                <p>Platform fee: {order.platformFee}</p>
-                <p>Total: {order.totalPrice}</p>
-                <button className="place-order-button" onClick={backToHomePage}>
-                  Back to Homepage
-                </button>
-              </div>
+              <h3>Menu Name: {menuDetail.MenuName}</h3>
+              <p>Menu Description: {menuDetail.MenuDesc}</p>
+              <p>Menu Type: {menuDetail.MenuTyp}</p>
+              <p>Menu Quantity: {menuDetail.QuantityOrdered}</p>
+              <p>Menu Note: {menuDetail.OrderedMenuItemDesc}</p>
+              <p>Menu Price: {menuDetail.OrderedMenuItemPrice} €</p>
             </div>
           ))}
         </div>
+        <button className="place-order-button" onClick={backToHomePage}>
+          Back to Homepage
+        </button>
       </div>
     </div>
   );

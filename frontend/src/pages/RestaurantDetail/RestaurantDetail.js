@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import UserContext from "../../UserContext";
 import styles from "../RestaurantDetail/restaurantDetails.module.css"; // Import styles from HomePage
-import { Link } from "react-router-dom";
 import OrderContext from "../../OrderContext";
 
 export default function RestaurantDetail() {
@@ -13,6 +12,7 @@ export default function RestaurantDetail() {
   const [restaurant, setRestaurant] = useState({});
   const [menu, setMenu] = useState([]);
   const { orderID } = useContext(OrderContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -28,6 +28,18 @@ export default function RestaurantDetail() {
     };
     fetchDetails();
   }, []);
+
+  const handleDelete = (OrderID) => {
+    const confirm = window.confirm(
+      "WARNING! If you go back to homepage?, all of your items in the checkout page will be deleted."
+    );
+    if (confirm) {
+      axios
+        .delete(`http://127.0.0.1:8000/api/orders/${OrderID}/`)
+        .catch((error) => console.log(error));
+    }
+    navigate("/homepage");
+  };
 
   return (
     <>
@@ -80,6 +92,13 @@ export default function RestaurantDetail() {
         <div>
           <Link to="/cart">Checkout</Link>
         </div>
+        <button
+          className="btn btn-sm btn-danger"
+          onClick={(e) => handleDelete(orderID.OrderID)}
+          style={{ width: "80px", height: "30px" }}
+        >
+          Back to Homepage
+        </button>
       </div>
     </>
   );

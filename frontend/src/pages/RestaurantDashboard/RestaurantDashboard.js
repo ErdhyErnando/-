@@ -97,12 +97,18 @@ const RestaurantDashboard = () => {
             🏠 {restaurant.RestaurantAdresse}, {restaurant.RestaurantPLZ}
           </p>
           <p>📞 {restaurant.RestaurantTelefonNummer}</p>
-          <button onClick={handleEditMenu}>Edit Menu</button>
-        </div>
-        <div>
-          <button onClick={handleLogout} style={{ marginLeft: "10px" }}>
-            Log out
-          </button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "10px",
+            }}
+          >
+            <button onClick={handleEditMenu} style={{ marginRight: "10px" }}>
+              Edit Menu
+            </button>
+            <button onClick={handleLogout}>Log out</button>
+          </div>
         </div>
       </div>
 

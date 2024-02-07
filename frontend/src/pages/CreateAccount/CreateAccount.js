@@ -17,6 +17,8 @@ const CreateAccount = () => {
 
   const { setUser } = useContext(UserContext);
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -48,9 +50,11 @@ const CreateAccount = () => {
 
       // Store the user data in your context
       setUser(response.data);
+
       navigate("/customerbankdetail"); // Redirect the user to the next page
     } catch (error) {
       console.error(error);
+      setErrorMessage("The email is already in use");
     }
   };
 
@@ -122,6 +126,9 @@ const CreateAccount = () => {
           placeholder="Enter your password"
           required
         />
+
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
         <small>Use 8 characters or more for your password</small>
 
         <button type="submit">Sign Up</button>

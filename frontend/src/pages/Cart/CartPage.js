@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OrderContext from "../../OrderContext";
 import styles from "./cartPage.module.css";
 import Price from "../../components/Price/Price";
+import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses";
 
 const CartPage = () => {
-  const { orderID } = useContext(OrderContext);
+  const { orderID, setOrderID } = useContext(OrderContext);
   const [orderDetails, setOrderDetails] = useState(null);
+  const [orderedItemDetail, setOrderedItemDetails] = useState(null);
 
   const [restaurantDetails, setRestaurantDetails] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -57,9 +60,16 @@ const CartPage = () => {
 
   const editMenuItem = async (OrderedMenuItemID, newQuantity, newNote) => {
     try {
+      const getOrderedItem = await axios.get(
+        `http://127.0.0.1:8000/api/ordered-menu-items/${OrderedMenuItemID}/`
+      );
+      setOrderedItemDetails(getOrderedItem.data);
+
       await axios.put(
         `http://127.0.0.1:8000/api/ordered-menu-items/${OrderedMenuItemID}/`,
         {
+          Order: orderedItemDetail.Order,
+          MenuOrdered: orderedItemDetail.MenuOrdered,
           QuantityOrdered: newQuantity,
           OrderedMenuItemDesc: newNote,
         }
@@ -70,6 +80,29 @@ const CartPage = () => {
         `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
       );
       setOrderDetails(updatedOrderResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePending = async () => {
+    try {
+      console.log(orderID.OrderID);
+      const responseOrderID = axios.put(
+        `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`,
+        {
+          OrderStatus: "Pending",
+          OrderCustomer: orderID.OrderCustomer,
+          OrderRestaurant: orderID.OrderRestaurant,
+          OrderPrice: orderID.OrderPrice,
+        }
+      );
+      const MasukinAnjing = await axios.get(
+        `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
+      );
+      setOrderID(MasukinAnjing.data);
+      console.log(MasukinAnjing.OrderStatus);
+      navigate(`/orderstatus`);
     } catch (error) {
       console.error(error);
     }
@@ -157,9 +190,9 @@ const CartPage = () => {
         Total Order Price: <Price price={orderDetails.OrderPrice} />
       </h2>
       <div className={styles.cartfooter}>
-        <Link to="/orderstatus">
-          <button className={styles.checkoutButton}>Proceed to Checkout</button>
-        </Link>
+        <button className={styles.checkoutButton} onClick={handlePending}>
+          Proceed to Order
+        </button>
         <Link to={`/restaurantdetail/${orderID.OrderRestaurant}`}>
           <button className={styles.returntorestaurant}>
             Return to Restaurant
