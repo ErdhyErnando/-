@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import classes from "./foodPage.module.css";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../../hooks/useCart";
 import Header from "../../../components/Header/Header";
 import Price from "../../../components/Price/Price";
+import OrderContext from "../../../OrderContext";
+import axios from "axios";
 
 export default function FoodPage() {
   const [food, setFood] = useState({});
   const { MenuID } = useParams();
   const { addToCart } = useCart();
   const navigate = useNavigate();
-
-  const { RestaurantID } = food;
+  const { orderID } = useContext(OrderContext);
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  console.log(orderID.OrderRestaurant);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/menus/${MenuID}`)
@@ -20,9 +24,25 @@ export default function FoodPage() {
       .catch((error) => console.error(error));
   }, [MenuID]);
 
-  const handleAddToCart = () => {
-    addToCart(MenuID, RestaurantID);
-    navigate(`/cart/${RestaurantID}`);
+  const handleAddToCart = async () => {
+    try {
+      const orderedMenuItemData = {
+        Order: orderID.OrderID,
+        MenuOrdered: MenuID,
+        OrderedMenuItemDesc: description,
+        QuantityOrdered: quantity,
+      };
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/ordered-menu-items/`,
+        orderedMenuItemData
+      );
+
+      console.log(response.data);
+      navigate(`/restaurantdetail/${orderID.OrderRestaurant}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -45,10 +65,30 @@ export default function FoodPage() {
           <div className={classes.price}>
             <Price price={food.MenuPrice} />
           </div>
+          <div className={classes.description}>
+            <label>
+              Description:
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </label>
+          </div>
 
-          <button onClick={handleAddToCart}>
-            <Link to={`/cart/${RestaurantID}`}> Add to Cart</Link>
-          </button>
+          <div className={classes.quantity}>
+            <label>
+              Quantity:
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <button onClick={handleAddToCart}></button>
         </div>
       </div>
     </>

@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import UserContext from "../../UserContext";
 import axios from "axios";
 import styles from "./HomePage.module.css";
+import OrderContext from "../../OrderContext";
 // import StarRating from "../StarRating/StarRating";
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
   const [restaurants, setRestaurants] = useState([]);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const { setOrderID } = useContext(OrderContext);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -55,6 +57,7 @@ export default function HomePage() {
         `http://127.0.0.1:8000/api/orders/`,
         orderData
       );
+      setOrderID(response.data);
 
       console.log(response.data);
       navigate(`/restaurantdetail/${RestaurantID}`);

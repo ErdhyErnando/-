@@ -5,12 +5,14 @@ import axios from "axios";
 import UserContext from "../../UserContext";
 import styles from "../RestaurantDetail/restaurantDetails.module.css"; // Import styles from HomePage
 import { Link } from "react-router-dom";
+import OrderContext from "../../OrderContext";
 
 export default function RestaurantDetail() {
   const { user } = useContext(UserContext);
   const { RestaurantID } = useParams();
   const [restaurant, setRestaurant] = useState({});
   const [menu, setMenu] = useState([]);
+  const { orderID } = useContext(OrderContext);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -75,6 +77,9 @@ export default function RestaurantDetail() {
             </li>
           ))}
         </ul>
+        <div>
+          <Link to="/cart">Checkout</Link>
+        </div>
       </div>
     </>
   );
