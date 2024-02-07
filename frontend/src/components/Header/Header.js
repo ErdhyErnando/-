@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import classes from "./header.module.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useCart } from "../../hooks/useCart";
 import UserContext from "../../UserContext"; // import UserContext
 import axios from "axios";
 
 export default function Header() {
-  const { cart } = useCart();
   const navigate = useNavigate();
   // const { CustomerID } = useParams();
   const { user, setUser } = useContext(UserContext); // use UserContext
@@ -46,15 +44,6 @@ export default function Header() {
             ) : (
               <Link to="/login">Login</Link>
             )}
-
-            <li>
-              <Link to="/cart">
-                Cart
-                {cart.totalCount > 0 && (
-                  <span className={classes.cart_count}>{cart.totalCount}</span>
-                )}
-              </Link>
-            </li>
           </ul>
         </nav>
       </div>

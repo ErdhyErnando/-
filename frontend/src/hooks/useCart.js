@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import axios from "axios";
 
 const CartContext = createContext(null);
 const CART_KEY = "cart";
@@ -63,12 +64,49 @@ export default function CartProvider({ children }) {
     );
   };
 
-  const addToCart = (menu) => {
-    const cartItem = cartItems.find((item) => item.MenuID === menu.MenuID);
-    if (cartItem) {
-      changeQuantity(cartItem, cartItem.quantity + 1);
-    } else {
-      setCartItems([...cartItems, { ...menu, quantity: 1 }]);
+  // const addToCart = (menu) => {
+  //   const cartItem = cartItems.find((item) => item.MenuID === menu.MenuID);
+  //   if (cartItem) {
+  //     changeQuantity(cartItem, cartItem.quantity + 1);
+  //   } else {
+  //     setCartItems([...cartItems, { ...menu, quantity: 1 }]);
+  //   }
+  // };
+
+  const addToCart = async (MenuID) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/menus/${MenuID}/`
+      );
+      const menu = response.data;
+      const RestaurantID = menu.RestaurantID; // Get RestaurantID from the API response
+
+      // Check if the cart already contains items from a different restaurant
+      const itemsFromDifferentRestaurant = cartItems.find(
+        (item) => item.RestaurantID !== RestaurantID
+      );
+
+      // If the cart contains items from a different restaurant, remove those items
+      if (itemsFromDifferentRestaurant) {
+        setCartItems([]);
+      }
+
+      const cartItem = cartItems.find((item) => item.MenuID === menu.MenuID);
+      if (cartItem) {
+        changeQuantity(cartItem, cartItem.quantity + 1);
+      } else {
+        const newCartItem = {
+          MenuID: menu.MenuID,
+          MenuName: menu.MenuName,
+          MenuPrice: menu.MenuPrice,
+          MenuImage: menu.MenuImage,
+          quantity: 1,
+          RestaurantID,
+        };
+        setCartItems([...cartItems, newCartItem]);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 

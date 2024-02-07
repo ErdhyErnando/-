@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import UserContext from "../../UserContext";
-import styles from "../HomePage/HomePage.module.css"; // Import styles from HomePage
+import styles from "../RestaurantDetail/restaurantDetails.module.css"; // Import styles from HomePage
 import { Link } from "react-router-dom";
 
 export default function RestaurantDetail() {
@@ -42,12 +42,14 @@ export default function RestaurantDetail() {
               objectFit: "cover",
             }}
           />
-          <div>
-            <p>🏠{restaurant.RestaurantAdresse}</p>
-            <p>📍{restaurant.RestaurantPLZ}</p>
-            <p> ☎️{restaurant.RestaurantTelefonNummer}</p>
-            <p> 📭 Open: {restaurant.OpenHour}</p>
-            <p> 📪Close: {restaurant.CloseHour}</p>
+          <div className={styles.detailsContainer}>
+            <div className={styles.details}>
+              <p>🏠{restaurant.RestaurantAdresse}</p>
+              <p>📍{restaurant.RestaurantPLZ}</p>
+              <p> ☎️{restaurant.RestaurantTelefonNummer}</p>
+              <p> 📭 Open: {restaurant.OpenHour}</p>
+              <p> 📪Close: {restaurant.CloseHour}</p>
+            </div>
           </div>
         </div>
         <h4 className={styles.centerText}>Menu:</h4>
@@ -67,8 +69,8 @@ export default function RestaurantDetail() {
               </Link>
               <div className={styles.centeredText}>
                 <div>{item.MenuName}</div>
-                <div>{item.MenuDescription}</div>
-                <div>{item.MenuPrice}</div>
+                {/* <div>{item.MenuDescription}</div>
+                <div>{item.MenuPrice}</div> */}
               </div>
             </li>
           ))}

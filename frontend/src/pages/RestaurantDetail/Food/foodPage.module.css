@@ -42,6 +42,12 @@
     font-weight: bold;
 }
 
+.description {
+   font-size: 1.5rem;
+   font-weight: lighter;
+}
+
+
 .favortie {
     color: #e72929;
     font-size: 2.5rem;

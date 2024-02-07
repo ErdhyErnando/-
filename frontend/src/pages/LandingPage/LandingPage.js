@@ -12,8 +12,8 @@ function LandingPage() {
 
   return (
     <div className="landing-page-container">
-      <h1>Bestelle Essen und mehr</h1>
-      <h2>Restaurants und Geschäfte, die zu dir liefern</h2>
+      <h1>Lieferspatz</h1>
+      <h2>InsyAllah will be delivered to your home 🙏</h2>
       <button className="login-button" onClick={handleSignIn}>
         Log In
       </button>

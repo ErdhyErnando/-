@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import classes from "./foodPage.module.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../../hooks/useCart";
-
 import Header from "../../../components/Header/Header";
+import Price from "../../../components/Price/Price";
 
 export default function FoodPage() {
   const [food, setFood] = useState({});
   const { MenuID } = useParams();
   const { addToCart } = useCart();
   const navigate = useNavigate();
+
+  const { RestaurantID } = food;
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/menus/${MenuID}`)
@@ -19,8 +21,8 @@ export default function FoodPage() {
   }, [MenuID]);
 
   const handleAddToCart = () => {
-    addToCart(food);
-    navigate("/cart");
+    addToCart(MenuID, RestaurantID);
+    navigate(`/cart/${RestaurantID}`);
   };
 
   return (
@@ -36,12 +38,17 @@ export default function FoodPage() {
           <div className={classes.header}>
             <span className={classes.name}>{food.MenuName}</span>
           </div>
-
-          <div className={classes.price}>
-            <p>Price: {food.MenuPrice}</p>
+          <div className={classes.description}>
+            <span className={classes.description}>{food.MenuDescription}</span>
           </div>
 
-          <button onClick={handleAddToCart}>Add to Cart</button>
+          <div className={classes.price}>
+            <Price price={food.MenuPrice} />
+          </div>
+
+          <button onClick={handleAddToCart}>
+            <Link to={`/cart/${RestaurantID}`}> Add to Cart</Link>
+          </button>
         </div>
       </div>
     </>

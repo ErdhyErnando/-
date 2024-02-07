@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import UserContext from "../../UserContext";
 import axios from "axios";
@@ -10,6 +10,7 @@ export default function HomePage() {
   const [PLZ, setPLZ] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -41,6 +42,27 @@ export default function HomePage() {
     fetchDetails();
   }, []);
 
+  const createOrder = async (RestaurantID) => {
+    try {
+      const orderData = {
+        OrderStatus: "Created", // Set this to the initial order status
+        OrderCustomer: user.CustomerID,
+        OrderRestaurant: RestaurantID,
+        OrderPrice: 0, // Set this to the initial order price
+      };
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/orders/`,
+        orderData
+      );
+
+      console.log(response.data);
+      navigate(`/restaurantdetail/${RestaurantID}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   console.log(PLZ); // Log PLZ to console
 
   return (
@@ -54,7 +76,7 @@ export default function HomePage() {
         <ul className={styles.list}>
           {restaurants.map((restaurant) => (
             <li key={restaurant.id} className={styles.listItem}>
-              <Link to={`/restaurantdetail/${restaurant.RestaurantID}`}>
+              <div onClick={() => createOrder(restaurant.RestaurantID)}>
                 <img
                   src={restaurant.RestaurantImage}
                   alt={restaurant.RestaurantName}
@@ -68,7 +90,7 @@ export default function HomePage() {
                 <div className={styles.centeredText}>
                   <div>{restaurant.RestaurantName}</div>
                 </div>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 import classes from "./cartPage.module.css";
 import Header from "../../components/Header/Header";
@@ -9,17 +9,25 @@ import Title from "../../components/Title/Title";
 
 export default function CartPage() {
   const { cart, removeFromCart, changeQuantity } = useCart();
+  const { RestaurantID } = useParams();
+
+  const itemsForCurrentRestaurant = cart.items.filter(
+    (item) => item.RestaurantID === RestaurantID
+  );
+
+  console.log(itemsForCurrentRestaurant.length);
+
   return (
     <>
       <Header />
       <Title title="Cart Page" margin="1.5rem 0 0 2.5rem" />
 
-      {cart.items.length === 0 ? (
+      {itemsForCurrentRestaurant.length === 0 ? (
         <NotFound message="Cart Page is Empty!" />
       ) : (
         <div className={classes.container}>
           <ul className={classes.list}>
-            {cart.items.map((item) => (
+            {itemsForCurrentRestaurant.map((item) => (
               <li key={item.MenuID}>
                 <div>
                   <img src={item.MenuImage} alt={item.MenuName} />
