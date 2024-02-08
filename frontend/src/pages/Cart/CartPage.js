@@ -17,6 +17,9 @@ const CartPage = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
+        await axios.post(
+          `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/UpdatePrice/`
+        );
         const orderResponse = await axios.get(
           `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
         );
@@ -77,7 +80,10 @@ const CartPage = () => {
 
       // Update order details
       const updatedOrderResponse = await axios.get(
-        `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`
+        `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/`,
+        axios.post(
+          `http://127.0.0.1:8000/api/orders/${orderID.OrderID}/UpdatePrice/`
+        )
       );
       setOrderDetails(updatedOrderResponse.data);
     } catch (error) {

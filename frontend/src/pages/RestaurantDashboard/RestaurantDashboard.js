@@ -7,25 +7,116 @@ import axios from "axios";
 const RestaurantDashboard = () => {
   const { user, setUser } = useContext(UserContext);
   const [restaurant, setRestaurant] = useState({});
+  const [orderIn, setOrderIn] = useState([]);
+  const [menuIn, setMenuIn] = useState([]);
+  const [acceptedMenuIn, setAcceptedMenuIn] = useState([]);
+  const [acceptedOrderID, setAcceptedOrderID] = useState([]);
+  const [rejectedMenuIn, setRejectedMenuIn] = useState([]);
+  const [rejectedOrderID, setRejectedOrderID] = useState([]);
+  const [deliveredMenuIn, setDeliveredMenuIn] = useState([]);
+  const [deliveredOrderID, setDeliveredOrderID] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchDetails = async () => {
+    try {
+      const ownerResponse = await axios.get(
+        `http://127.0.0.1:8000/api/owners/${user.OwnerID}/`
+      );
+      // console.log(ownerResponse.data);
+      const restaurantResponse = await axios.get(
+        `http://127.0.0.1:8000/api/restaurants/${ownerResponse.data.RestaurantID}/`
+      );
+      setRestaurant(restaurantResponse.data);
+
+      try {
+        const incomingOrders = await axios.post(
+          `http://127.0.0.1:8000/api/orders/FilterStatus/`,
+          { Status: "Pending", RestaurantID: user.RestaurantID }
+        );
+        setOrderIn(incomingOrders.data);
+        let menus = [];
+        incomingOrders.data.forEach((order) => {
+          menus = [...menus, ...order.OrderItems];
+        });
+        setMenuIn(menus);
+        // console.log(menuIn.MenuName);
+      } catch (error) {
+        // if (error.response && error.response.status === 404) {
+        setOrderIn([]);
+        //   setMenuIn([]);
+        // } else {
+        console.error("Error fetching incoming orders: ", error);
+      }
+      // }
+
+      try {
+        const acceptedOrders = await axios.post(
+          `http://127.0.0.1:8000/api/orders/FilterStatus/`,
+          { Status: "Accepted", RestaurantID: user.RestaurantID }
+        );
+        setAcceptedOrderID(acceptedOrders.data);
+        let acceptedMenus = [];
+        acceptedOrders.data.forEach((acceptedOrder) => {
+          acceptedMenus = [...acceptedMenus, ...acceptedOrder.OrderItems];
+        });
+        setAcceptedMenuIn(acceptedMenus);
+        // console.log(acceptedMenuIn.MenuName);
+      } catch (error) {
+        // if (error.response && error.response.status === 404) {
+        setAcceptedOrderID([]);
+        //   setMenuIn([]);
+        // } else {
+        console.error("Error fetching incoming orders: ", error);
+      }
+      // }
+
+      try {
+        const rejectedOrders = await axios.post(
+          `http://127.0.0.1:8000/api/orders/FilterStatus/`,
+          { Status: "Rejected", RestaurantID: user.RestaurantID }
+        );
+        setRejectedOrderID(rejectedOrders.data);
+        let rejectedMenus = [];
+        rejectedOrders.data.forEach((rejectedOrder) => {
+          rejectedMenus = [...rejectedMenus, ...rejectedOrder.OrderItems];
+        });
+        setRejectedMenuIn(rejectedMenus);
+        // console.log(rejectedMenuIn.MenuName);
+      } catch (error) {
+        // if (error.response && error.response.status === 404) {
+        setRejectedOrderID([]);
+        //   setMenuIn([]);
+        // } else {
+        console.error("Error fetching incoming orders: ", error);
+      }
+      // }
+
+      try {
+        const deliveredOrders = await axios.post(
+          `http://127.0.0.1:8000/api/orders/FilterStatus/`,
+          { Status: "Delivered", RestaurantID: user.RestaurantID }
+        );
+        setDeliveredOrderID(deliveredOrders.data);
+        let deliveredMenus = [];
+        deliveredOrders.data.forEach((deliveredOrder) => {
+          deliveredMenus = [...deliveredMenus, ...deliveredOrder.OrderItems];
+        });
+        setDeliveredMenuIn(deliveredMenus);
+        // console.log(deliveredMenuIn.MenuName);
+      } catch (error) {
+        console.error("Error fetching delivered orders: ", error);
+      }
+    } catch (error) {
+      // if (error.response && error.response.status === 404) {
+      setDeliveredOrderID([]);
+      //   setMenuIn([]);
+      // } else {
+      console.error("Error fetching incoming orders: ", error);
+    }
+    // }
+  };
 
   useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const ownerResponse = await axios.get(
-          `http://127.0.0.1:8000/api/owners/${user.OwnerID}/`
-        );
-
-        console.log(ownerResponse.data); // Log owner data to console
-        const restaurantResponse = await axios.get(
-          `http://127.0.0.1:8000/api/restaurants/${ownerResponse.data.RestaurantID}/`
-        );
-
-        setRestaurant(restaurantResponse.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchDetails();
   }, []);
 
@@ -34,7 +125,7 @@ const RestaurantDashboard = () => {
       // Call the logout API
       await axios.post("http://127.0.0.1:8000/api/customers/logout/");
 
-      console.log("User logged out successfully");
+      // console.log("User logged out successfully");
 
       // Clear the user data when logging out
       setUser(null);
@@ -45,29 +136,74 @@ const RestaurantDashboard = () => {
     }
   };
 
-  const incomingOrders = [
-    // ... incoming orders
-  ];
+  const pendingToAccepted = async (choosen) => {
+    console.log(choosen);
+    try {
+      const getOrder = await axios.get(
+        `http://127.0.0.1:8000/api/orders/${choosen}/`
+      );
+      fetchDetails();
 
-  const orderHistory = [
-    // ... order history
-  ];
+      await axios.put(`http://127.0.0.1:8000/api/orders/${choosen}/`, {
+        OrderStatus: "Accepted",
+        OrderCustomer: getOrder.data.OrderCustomer,
+        OrderRestaurant: getOrder.data.OrderRestaurant,
+        OrderPrice: getOrder.data.OrderPrice,
+      });
 
-  const acceptOrder = (index) => {
-    // Logic to accept order
+      fetchDetails();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const rejectOrder = (index) => {
-    // Logic to reject order
+  const pendingToRejected = async (choosen) => {
+    console.log(choosen);
+    try {
+      const getOrder = await axios.get(
+        `http://127.0.0.1:8000/api/orders/${choosen}/`
+      );
+      fetchDetails();
+
+      await axios.put(`http://127.0.0.1:8000/api/orders/${choosen}/`, {
+        OrderStatus: "Rejected",
+        OrderCustomer: getOrder.data.OrderCustomer,
+        OrderRestaurant: getOrder.data.OrderRestaurant,
+        OrderPrice: getOrder.data.OrderPrice,
+      });
+
+      fetchDetails();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  console.log(restaurant.RestaurantImage);
+  const acceptedToDelivered = async (choosen) => {
+    console.log(choosen);
+    try {
+      const getOrder = await axios.get(
+        `http://127.0.0.1:8000/api/orders/${choosen}/`
+      );
+      fetchDetails();
 
-  const navigate = useNavigate();
+      await axios.put(`http://127.0.0.1:8000/api/orders/${choosen}/`, {
+        OrderStatus: "Delivered",
+        OrderCustomer: getOrder.data.OrderCustomer,
+        OrderRestaurant: getOrder.data.OrderRestaurant,
+        OrderPrice: getOrder.data.OrderPrice,
+      });
+
+      fetchDetails();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleEditMenu = () => {
     navigate("/restaurantdashboard/edit");
   };
+
+  // console.log(restaurant.RestaurantImage);
 
   return (
     <div className="restaurant-dashboard">
@@ -113,45 +249,108 @@ const RestaurantDashboard = () => {
       </div>
 
       <h2>Incoming Orders</h2>
-      {incomingOrders.map((order, index) => (
+      {orderIn.map((order, index) => (
         <div key={index} className="order">
-          <h3>Delivery for {order.customerName}</h3>
-          <p>{order.address}</p>
-          <p>📞 {order.phone}</p>
-          <div className="order-summary">
-            {order.items.map((item, itemIndex) => (
-              <p key={itemIndex}>
-                {item.quantity}x {item.name} - {item.price.toFixed(2)} €
-              </p>
-            ))}
-            <p>Total: {order.total.toFixed(2)} €</p>
-          </div>
-          <button onClick={() => rejectOrder(index)}>Reject Order</button>
-          <button onClick={() => acceptOrder(index)}>Accept Order</button>
+          <h3>Delivery for Order ID: {order.OrderID}</h3>
+          <p>Date of order: {order.OrderDate}</p>
+          <p>
+            Customer Name: {order.CustomerVorname} {order.CustomerNachname}
+          </p>
+          <p>Address: {order.CustomerAdresse}</p>
+          <p>Customer 📞: {order.CustomerTelefonnummer}</p>
+          {order.OrderItems.map((menu, index) => (
+            <div key={index} className="menu">
+              <p>Menu Name: {menu.MenuName}</p>
+              <p>Menu Type: {menu.MenuTyp}</p>
+              <p>Menu Quantity: {menu.QuantityOrdered}</p>
+              <p>Menu Notes: {menu.OrderedMenuItemDesc}</p>
+            </div>
+          ))}
+          <button onClick={() => pendingToRejected(order.OrderID)}>
+            Reject Order
+          </button>
+          <button onClick={() => pendingToAccepted(order.OrderID)}>
+            Accept Order
+          </button>
+        </div>
+      ))}
+
+      <h2>Accepted Orders</h2>
+      {acceptedOrderID.map((acceptedOrder, index) => (
+        <div key={index} className="order">
+          <h3>Delivery for Order ID: {acceptedOrder.OrderID}</h3>
+          <p>Date of order: {acceptedOrder.OrderDate}</p>
+          <p>
+            Customer Name: {acceptedOrder.CustomerVorname}{" "}
+            {acceptedOrder.CustomerNachname}
+          </p>
+          <p>Address: {acceptedOrder.CustomerAdresse}</p>
+          <p>Customer 📞: {acceptedOrder.CustomerTelefonnummer}</p>
+          {acceptedOrder.OrderItems.map((acceptedMenu, index) => (
+            <div key={index} className="menu">
+              <p>Menu Name: {acceptedMenu.MenuName}</p>
+              <p>Menu Type: {acceptedMenu.MenuTyp}</p>
+              <p>Menu Quantity: {acceptedMenu.QuantityOrdered}</p>
+              <p>Menu Notes: {acceptedMenu.OrderedMenuItemDesc}</p>
+            </div>
+          ))}
+          <button onClick={() => acceptedToDelivered(acceptedOrder.OrderID)}>
+            To be Delivered
+          </button>
         </div>
       ))}
 
       <h2>Order History</h2>
-      {orderHistory.map((order, index) => (
-        <div key={index} className="order history">
-          <h3>Delivery for {order.customerName}</h3>
-          <p>{order.address}</p>
-          <p>📞 {order.phone}</p>
-          <div className="order-summary">
-            {order.items.map((item, itemIndex) => (
-              <p key={itemIndex}>
-                {item.quantity}x {item.name} - {item.price.toFixed(2)} €
-              </p>
+
+      {/* Rejected Orders */}
+      <div>
+        {rejectedOrderID.map((rejectedOrder, index) => (
+          <div key={index} className="order">
+            <h3>Delivery for Order ID: {rejectedOrder.OrderID}</h3>
+            <h3>Status order: {rejectedOrder.OrderStatus}</h3>
+            <p>Date of order: {rejectedOrder.OrderDate}</p>
+            <p>
+              Customer Name: {rejectedOrder.CustomerVorname}{" "}
+              {rejectedOrder.CustomerNachname}
+            </p>
+            <p>Address: {rejectedOrder.CustomerAdresse}</p>
+            <p>Customer 📞: {rejectedOrder.CustomerTelefonnummer}</p>
+            {rejectedOrder.OrderItems.map((rejectedMenu, index) => (
+              <div key={index} className="menu">
+                <p>Menu Name: {rejectedMenu.MenuName}</p>
+                <p>Menu Type: {rejectedMenu.MenuTyp}</p>
+                <p>Menu Quantity: {rejectedMenu.QuantityOrdered}</p>
+                <p>Menu Notes: {rejectedMenu.OrderedMenuItemDesc}</p>
+              </div>
             ))}
-            <p>Total: {order.total.toFixed(2)} €</p>
           </div>
-          <button
-            className={order.status === "accepted" ? "accepted" : "rejected"}
-          >
-            Order {order.status}
-          </button>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      {/* Delivered Orders */}
+      <div>
+        {deliveredOrderID.map((deliveredOrder, index) => (
+          <div key={index} className="order">
+            <h3>Delivery for Order ID: {deliveredOrder.OrderID}</h3>
+            <h3>Status order: {deliveredOrder.OrderStatus}</h3>
+            <p>Date of order: {deliveredOrder.OrderDate}</p>
+            <p>
+              Customer Name: {deliveredOrder.CustomerVorname}{" "}
+              {deliveredOrder.CustomerNachname}
+            </p>
+            <p>Address: {deliveredOrder.CustomerAdresse}</p>
+            <p>Customer 📞: {deliveredOrder.CustomerTelefonnummer}</p>
+            {deliveredOrder.OrderItems.map((deliveredMenu, index) => (
+              <div key={index} className="menu">
+                <p>Menu Name: {deliveredMenu.MenuName}</p>
+                <p>Menu Type: {deliveredMenu.MenuTyp}</p>
+                <p>Menu Quantity: {deliveredMenu.QuantityOrdered}</p>
+                <p>Menu Notes: {deliveredMenu.OrderedMenuItemDesc}</p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
