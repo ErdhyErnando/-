@@ -104,11 +104,11 @@ const RestaurantDashboard = () => {
         setDeliveredMenuIn(deliveredMenus);
         // console.log(deliveredMenuIn.MenuName);
       } catch (error) {
+        setDeliveredOrderID([]);
         console.error("Error fetching delivered orders: ", error);
       }
     } catch (error) {
       // if (error.response && error.response.status === 404) {
-      setDeliveredOrderID([]);
       //   setMenuIn([]);
       // } else {
       console.error("Error fetching incoming orders: ", error);
