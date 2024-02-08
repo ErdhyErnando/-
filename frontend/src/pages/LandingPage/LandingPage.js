@@ -13,7 +13,7 @@ function LandingPage() {
   return (
     <div className="landing-page-container">
       <h1>Lieferspatz</h1>
-      <h2>InsyAllah will be delivered to your home 🙏</h2>
+      <h2>Will be delivered to your home 🙏</h2>
       <button className="login-button" onClick={handleSignIn}>
         Log In
       </button>
