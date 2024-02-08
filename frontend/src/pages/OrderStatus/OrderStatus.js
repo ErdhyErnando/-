@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../UserContext";
+// import "./OrderStatus.css";
 
 const OrderStatus = () => {
   const [orderHistory, setOrderHistory] = useState([]);
@@ -116,104 +117,122 @@ const OrderStatus = () => {
     <div className="restaurant-dashboard">
       <h1>Order Status</h1>
 
-      <h2>Incoming Orders</h2>
-      {orderIn.map((order, index) => (
-        <div key={index} className="order">
-          <h3>Delivery for Order ID: {order.OrderID}</h3>
-          <p>Date of order: {order.OrderDate}</p>
-          <p>
-            Customer Name: {order.CustomerVorname} {order.CustomerNachname}
-          </p>
-          <p>Address: {order.CustomerAdresse}</p>
-          <p>Customer 📞: {order.CustomerTelefonnummer}</p>
-          {order.OrderItems.map((menu, index) => (
-            <div key={index} className="menu">
-              <p>Menu Name: {menu.MenuName}</p>
-              <p>Menu Type: {menu.MenuTyp}</p>
-              <p>Menu Quantity: {menu.QuantityOrdered}</p>
-              <p>Menu Notes: {menu.OrderedMenuItemDesc}</p>
-            </div>
-          ))}
-        </div>
-      ))}
-
-      <h2>Accepted Orders</h2>
-      {acceptedOrderID.map((acceptedOrder, index) => (
-        <div key={index} className="order">
-          <h3>Delivery for Order ID: {acceptedOrder.OrderID}</h3>
-          <p>Date of order: {acceptedOrder.OrderDate}</p>
-          <p>
-            Customer Name: {acceptedOrder.CustomerVorname}{" "}
-            {acceptedOrder.CustomerNachname}
-          </p>
-          <p>Address: {acceptedOrder.CustomerAdresse}</p>
-          <p>Customer 📞: {acceptedOrder.CustomerTelefonnummer}</p>
-          {acceptedOrder.OrderItems.map((acceptedMenu, index) => (
-            <div key={index} className="menu">
-              <p>Menu Name: {acceptedMenu.MenuName}</p>
-              <p>Menu Type: {acceptedMenu.MenuTyp}</p>
-              <p>Menu Quantity: {acceptedMenu.QuantityOrdered}</p>
-              <p>Menu Notes: {acceptedMenu.OrderedMenuItemDesc}</p>
-            </div>
-          ))}
-        </div>
-      ))}
-
-      <h2>Order History</h2>
-
-      {/* Rejected Orders */}
-      <div>
-        {rejectedOrderID.map((rejectedOrder, index) => (
+      <div className="incoming-orders">
+        <h2>Incoming Orders</h2>
+        {orderIn.map((order, index) => (
           <div key={index} className="order">
-            <h3>Delivery for Order ID: {rejectedOrder.OrderID}</h3>
-            <h3>Status order: {rejectedOrder.OrderStatus}</h3>
-            <p>Date of order: {rejectedOrder.OrderDate}</p>
+            <h3>Delivery for Order ID: {order.OrderID}</h3>
+            <p>Date of order: {order.OrderDate}</p>
             <p>
-              Customer Name: {rejectedOrder.CustomerVorname}{" "}
-              {rejectedOrder.CustomerNachname}
+              Customer Name: {order.CustomerVorname} {order.CustomerNachname}
             </p>
-            <p>Address: {rejectedOrder.CustomerAdresse}</p>
-            <p>Customer 📞: {rejectedOrder.CustomerTelefonnummer}</p>
-            {rejectedOrder.OrderItems.map((rejectedMenu, index) => (
+            <p>Address: {order.CustomerAdresse}</p>
+            <p>Customer 📞: {order.CustomerTelefonnummer}</p>
+            {order.OrderItems.map((menu, index) => (
               <div key={index} className="menu">
-                <p>Menu Name: {rejectedMenu.MenuName}</p>
-                <p>Menu Type: {rejectedMenu.MenuTyp}</p>
-                <p>Menu Quantity: {rejectedMenu.QuantityOrdered}</p>
-                <p>Menu Notes: {rejectedMenu.OrderedMenuItemDesc}</p>
+                <p>Menu Name: {menu.MenuName}</p>
+                <p>Menu Type: {menu.MenuTyp}</p>
+                <p>Menu Quantity: {menu.QuantityOrdered}</p>
+                <p>Menu Notes: {menu.OrderedMenuItemDesc}</p>
               </div>
             ))}
           </div>
         ))}
       </div>
 
-      {/* Delivered Orders */}
-      <div>
-        {deliveredOrderID.map((deliveredOrder, index) => (
+      <hr />
+
+      <div className="accepted-orders">
+        <h2>Accepted Orders</h2>
+        {acceptedOrderID.map((acceptedOrder, index) => (
           <div key={index} className="order">
-            <h3>Delivery for Order ID: {deliveredOrder.OrderID}</h3>
-            <h3>Status order: {deliveredOrder.OrderStatus}</h3>
-            <p>Date of order: {deliveredOrder.OrderDate}</p>
+            <h3>Delivery for Order ID: {acceptedOrder.OrderID}</h3>
+            <p>Date of order: {acceptedOrder.OrderDate}</p>
             <p>
-              Customer Name: {deliveredOrder.CustomerVorname}{" "}
-              {deliveredOrder.CustomerNachname}
+              Customer Name: {acceptedOrder.CustomerVorname}{" "}
+              {acceptedOrder.CustomerNachname}
             </p>
-            <p>Address: {deliveredOrder.CustomerAdresse}</p>
-            <p>Customer 📞: {deliveredOrder.CustomerTelefonnummer}</p>
-            {deliveredOrder.OrderItems.map((deliveredMenu, index) => (
+            <p>Address: {acceptedOrder.CustomerAdresse}</p>
+            <p>Customer 📞: {acceptedOrder.CustomerTelefonnummer}</p>
+            {acceptedOrder.OrderItems.map((acceptedMenu, index) => (
               <div key={index} className="menu">
-                <p>Menu Name: {deliveredMenu.MenuName}</p>
-                <p>Menu Type: {deliveredMenu.MenuTyp}</p>
-                <p>Menu Quantity: {deliveredMenu.QuantityOrdered}</p>
-                <p>Menu Notes: {deliveredMenu.OrderedMenuItemDesc}</p>
+                <p>Menu Name: {acceptedMenu.MenuName}</p>
+                <p>Menu Type: {acceptedMenu.MenuTyp}</p>
+                <p>Menu Quantity: {acceptedMenu.QuantityOrdered}</p>
+                <p>Menu Notes: {acceptedMenu.OrderedMenuItemDesc}</p>
               </div>
             ))}
           </div>
         ))}
       </div>
-      <button onClick={() => fetchDetails()}>Refresh Status</button>
-      <button>
-        <Link to="/homepage">Return to Homepage</Link>
-      </button>
+
+      <hr />
+
+      <div className="order-status-page">
+        <h2>Order History</h2>
+        <div className="order-history">
+          {/* Rejected Orders */}
+          <div className="rejected-orders">
+            <div>
+              {rejectedOrderID.map((rejectedOrder, index) => (
+                <div key={index} className="order">
+                  <h3>Delivery for Order ID: {rejectedOrder.OrderID}</h3>
+                  <h3>Status order: {rejectedOrder.OrderStatus}</h3>
+                  <p>Date of order: {rejectedOrder.OrderDate}</p>
+                  <p>
+                    Customer Name: {rejectedOrder.CustomerVorname}{" "}
+                    {rejectedOrder.CustomerNachname}
+                  </p>
+                  <p>Address: {rejectedOrder.CustomerAdresse}</p>
+                  <p>Customer 📞: {rejectedOrder.CustomerTelefonnummer}</p>
+                  {rejectedOrder.OrderItems.map((rejectedMenu, index) => (
+                    <div key={index} className="menu">
+                      <p>Menu Name: {rejectedMenu.MenuName}</p>
+                      <p>Menu Type: {rejectedMenu.MenuTyp}</p>
+                      <p>Menu Quantity: {rejectedMenu.QuantityOrdered}</p>
+                      <p>Menu Notes: {rejectedMenu.OrderedMenuItemDesc}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Delivered Orders */}
+          <div className="delivered-orders">
+            <div>
+              {deliveredOrderID.map((deliveredOrder, index) => (
+                <div key={index} className="order">
+                  <h3>Delivery for Order ID: {deliveredOrder.OrderID}</h3>
+                  <h3>Status order: {deliveredOrder.OrderStatus}</h3>
+                  <p>Date of order: {deliveredOrder.OrderDate}</p>
+                  <p>
+                    Customer Name: {deliveredOrder.CustomerVorname}{" "}
+                    {deliveredOrder.CustomerNachname}
+                  </p>
+                  <p>Address: {deliveredOrder.CustomerAdresse}</p>
+                  <p>Customer 📞: {deliveredOrder.CustomerTelefonnummer}</p>
+                  {deliveredOrder.OrderItems.map((deliveredMenu, index) => (
+                    <div key={index} className="menu">
+                      <p>Menu Name: {deliveredMenu.MenuName}</p>
+                      <p>Menu Type: {deliveredMenu.MenuTyp}</p>
+                      <p>Menu Quantity: {deliveredMenu.QuantityOrdered}</p>
+                      <p>Menu Notes: {deliveredMenu.OrderedMenuItemDesc}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="button-container">
+        <button onClick={() => fetchDetails()}>Refresh Status</button>
+        <button>
+          <Link to="/homepage">Return to Homepage</Link>
+        </button>
+      </div>
     </div>
   );
 };

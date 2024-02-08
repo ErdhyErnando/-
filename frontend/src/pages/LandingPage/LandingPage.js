@@ -20,22 +20,16 @@ function LandingPage() {
 
       <div className="services">
         <div className="service">
-          <h3>Teile uns deinen Standort mit</h3>
-          <p>
-            Wir zeigen dir Geschäfte und Restaurants in deiner Nähe, wo du
-            bestellen kannst.
-          </p>
+          <h3>Are you Hungry? 😋</h3>
+          <p>We got the platform for you to order food from your favorite</p>
         </div>
         <div className="service">
-          <h3>Suche, worauf du Lust hast</h3>
-          <p>
-            Suche nach Artikeln, Gerichten, Geschäften oder einer bestimmten
-            Küche.
-          </p>
+          <h3>You don't want to cook? 🧑‍🍳</h3>
+          <p>we'll bring the food to your door!</p>
         </div>
         <div className="service">
-          <h3>Bestelle zur Lieferung oder Abholung</h3>
-          <p>Wir informieren dich über den Status deiner Bestellung.</p>
+          <h3>Expensive Delivery Price? 🛵</h3>
+          <p>Free delivery fee every 1st week of the month!</p>
         </div>
       </div>
     </div>

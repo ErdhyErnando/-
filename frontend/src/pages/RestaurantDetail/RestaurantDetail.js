@@ -13,6 +13,7 @@ export default function RestaurantDetail() {
   const [menu, setMenu] = useState([]);
   const { orderID } = useContext(OrderContext);
   const navigate = useNavigate();
+  const [appetizerMenus, setAppetizerMenus] = useState([]);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -22,6 +23,7 @@ export default function RestaurantDetail() {
         );
         setRestaurant(restaurantResponse.data);
         setMenu(restaurantResponse.data.MenuDetail || []);
+        console.log(restaurantResponse.data.MenuDetail || []);
       } catch (error) {
         console.error(error);
       }
@@ -39,6 +41,139 @@ export default function RestaurantDetail() {
         .catch((error) => console.log(error));
     }
     navigate("/homepage");
+  };
+
+  // const handleAppetizerClick = async () => {
+  //   try {
+  //     // Execute axios.post to filter the menus
+  //     const responseAppetizer = await axios.post(
+  //       "http://127.0.0.1:8000/api/menus/FilterType/",
+  //       {
+  //         MenuType: "Appetizer",
+  //         RestaurantID: RestaurantID,
+  //       }
+  //     );
+  //     setAppetizerMenus(responseAppetizer.data);
+
+  //     // Execute axios.get to fetch the updated list of menus
+  //     const response = await axios.get(
+  //       `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
+  //     );
+
+  //     // Update the state with the new list of menus
+  //     setMenu(response.data.MenuDetail || []);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleAll = async () => {
+    try {
+      const restaurantResponse = await axios.get(
+        `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
+      );
+      setRestaurant(restaurantResponse.data);
+      setMenu(restaurantResponse.data.MenuDetail || []);
+      console.log(restaurantResponse.data.MenuDetail || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAppetizerClick = async () => {
+    try {
+      // Execute axios.post to filter the menus
+      const responseAppetizer = await axios.post(
+        `http://127.0.0.1:8000/api/menus/FilterType/`,
+        {
+          MenuType: "appetizer",
+          RestaurantID: RestaurantID,
+        }
+      );
+      // Update the state with the new list of menus
+      setAppetizerMenus(responseAppetizer.data);
+      console.log(responseAppetizer.data);
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
+      );
+      // Update the state with the new list of menus
+      setRestaurant(response.data);
+      setMenu(responseAppetizer.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleMainCourseClick = async () => {
+    try {
+      // Execute axios.post to filter the menus
+      const responseAppetizer = await axios.post(
+        `http://127.0.0.1:8000/api/menus/FilterType/`,
+        {
+          MenuType: "Main course",
+          RestaurantID: RestaurantID,
+        }
+      );
+      // Update the state with the new list of menus
+      setAppetizerMenus(responseAppetizer.data);
+      console.log(responseAppetizer.data);
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
+      );
+      // Update the state with the new list of menus
+      setRestaurant(response.data);
+      setMenu(responseAppetizer.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDessertClick = async () => {
+    try {
+      // Execute axios.post to filter the menus
+      const responseAppetizer = await axios.post(
+        `http://127.0.0.1:8000/api/menus/FilterType/`,
+        {
+          MenuType: "dessert",
+          RestaurantID: RestaurantID,
+        }
+      );
+      // Update the state with the new list of menus
+      setAppetizerMenus(responseAppetizer.data);
+      console.log(responseAppetizer.data);
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
+      );
+      // Update the state with the new list of menus
+      setRestaurant(response.data);
+      setMenu(responseAppetizer.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleBeverageClick = async () => {
+    try {
+      // Execute axios.post to filter the menus
+      const responseAppetizer = await axios.post(
+        `http://127.0.0.1:8000/api/menus/FilterType/`,
+        {
+          MenuType: "Beverage",
+          RestaurantID: RestaurantID,
+        }
+      );
+      // Update the state with the new list of menus
+      setAppetizerMenus(responseAppetizer.data);
+      console.log(responseAppetizer.data);
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
+      );
+      // Update the state with the new list of menus
+      setRestaurant(response.data);
+      setMenu(responseAppetizer.data || []);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -65,6 +200,13 @@ export default function RestaurantDetail() {
               <p> 📪Close: {restaurant.CloseHour}</p>
             </div>
           </div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+          <button onClick={handleAll}>All</button>
+          <button onClick={handleAppetizerClick}>Appetizer</button>
+          <button onClick={handleMainCourseClick}>Main Course</button>
+          <button onClick={handleDessertClick}>Dessert</button>
+          <button onClick={handleBeverageClick}>Beverage</button>
         </div>
         <h4 className={styles.centerText}>Menu:</h4>
         <ul className={styles.list}>
@@ -102,4 +244,4 @@ export default function RestaurantDetail() {
       </div>
     </>
   );
-} // Add closing curly brace here
+}

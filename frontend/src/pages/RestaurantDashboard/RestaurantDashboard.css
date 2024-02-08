@@ -35,6 +35,17 @@
   margin: 0 auto;
 }
 
+
+.order-history {
+  display: flex;
+  justify-content: space-between;;
+}
+
+.rejected-orders, .delivered-orders {
+  flex: 1; /* This will make them take up an equal amount of space */
+  margin: 0 10px; /* This will give them some space on the sides */
+  padding: 10px; /* This will give the content inside them some room */
+}
 .order,
 .order.history {
   border: 1px solid #000;
@@ -44,6 +55,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 
 /* Responsive design for screens smaller than 600px */
 @media (max-width: 600px) {

@@ -248,6 +248,8 @@ const RestaurantDashboard = () => {
         </div>
       </div>
 
+      <hr />
+
       <h2>Incoming Orders</h2>
       {orderIn.map((order, index) => (
         <div key={index} className="order">
@@ -275,6 +277,8 @@ const RestaurantDashboard = () => {
         </div>
       ))}
 
+      <hr />
+
       <h2>Accepted Orders</h2>
       {acceptedOrderID.map((acceptedOrder, index) => (
         <div key={index} className="order">
@@ -300,56 +304,65 @@ const RestaurantDashboard = () => {
         </div>
       ))}
 
-      <h2>Order History</h2>
+      <hr />
 
-      {/* Rejected Orders */}
-      <div>
-        {rejectedOrderID.map((rejectedOrder, index) => (
-          <div key={index} className="order">
-            <h3>Delivery for Order ID: {rejectedOrder.OrderID}</h3>
-            <h3>Status order: {rejectedOrder.OrderStatus}</h3>
-            <p>Date of order: {rejectedOrder.OrderDate}</p>
-            <p>
-              Customer Name: {rejectedOrder.CustomerVorname}{" "}
-              {rejectedOrder.CustomerNachname}
-            </p>
-            <p>Address: {rejectedOrder.CustomerAdresse}</p>
-            <p>Customer 📞: {rejectedOrder.CustomerTelefonnummer}</p>
-            {rejectedOrder.OrderItems.map((rejectedMenu, index) => (
-              <div key={index} className="menu">
-                <p>Menu Name: {rejectedMenu.MenuName}</p>
-                <p>Menu Type: {rejectedMenu.MenuTyp}</p>
-                <p>Menu Quantity: {rejectedMenu.QuantityOrdered}</p>
-                <p>Menu Notes: {rejectedMenu.OrderedMenuItemDesc}</p>
-              </div>
-            ))}
+      <div className="order-status-page">
+        <h2>Order History</h2>
+        <div className="order-history">
+          {/* Rejected Orders */}
+          <div className="rejected-orders">
+            <div>
+              {rejectedOrderID.map((rejectedOrder, index) => (
+                <div key={index} className="order">
+                  <h3>Delivery for Order ID: {rejectedOrder.OrderID}</h3>
+                  <h3>Status order: {rejectedOrder.OrderStatus}</h3>
+                  <p>Date of order: {rejectedOrder.OrderDate}</p>
+                  <p>
+                    Customer Name: {rejectedOrder.CustomerVorname}{" "}
+                    {rejectedOrder.CustomerNachname}
+                  </p>
+                  <p>Address: {rejectedOrder.CustomerAdresse}</p>
+                  <p>Customer 📞: {rejectedOrder.CustomerTelefonnummer}</p>
+                  {rejectedOrder.OrderItems.map((rejectedMenu, index) => (
+                    <div key={index} className="menu">
+                      <p>Menu Name: {rejectedMenu.MenuName}</p>
+                      <p>Menu Type: {rejectedMenu.MenuTyp}</p>
+                      <p>Menu Quantity: {rejectedMenu.QuantityOrdered}</p>
+                      <p>Menu Notes: {rejectedMenu.OrderedMenuItemDesc}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
 
-      {/* Delivered Orders */}
-      <div>
-        {deliveredOrderID.map((deliveredOrder, index) => (
-          <div key={index} className="order">
-            <h3>Delivery for Order ID: {deliveredOrder.OrderID}</h3>
-            <h3>Status order: {deliveredOrder.OrderStatus}</h3>
-            <p>Date of order: {deliveredOrder.OrderDate}</p>
-            <p>
-              Customer Name: {deliveredOrder.CustomerVorname}{" "}
-              {deliveredOrder.CustomerNachname}
-            </p>
-            <p>Address: {deliveredOrder.CustomerAdresse}</p>
-            <p>Customer 📞: {deliveredOrder.CustomerTelefonnummer}</p>
-            {deliveredOrder.OrderItems.map((deliveredMenu, index) => (
-              <div key={index} className="menu">
-                <p>Menu Name: {deliveredMenu.MenuName}</p>
-                <p>Menu Type: {deliveredMenu.MenuTyp}</p>
-                <p>Menu Quantity: {deliveredMenu.QuantityOrdered}</p>
-                <p>Menu Notes: {deliveredMenu.OrderedMenuItemDesc}</p>
-              </div>
-            ))}
+          {/* Delivered Orders */}
+          <div className="delivered-orders">
+            <div>
+              {deliveredOrderID.map((deliveredOrder, index) => (
+                <div key={index} className="order">
+                  <h3>Delivery for Order ID: {deliveredOrder.OrderID}</h3>
+                  <h3>Status order: {deliveredOrder.OrderStatus}</h3>
+                  <p>Date of order: {deliveredOrder.OrderDate}</p>
+                  <p>
+                    Customer Name: {deliveredOrder.CustomerVorname}{" "}
+                    {deliveredOrder.CustomerNachname}
+                  </p>
+                  <p>Address: {deliveredOrder.CustomerAdresse}</p>
+                  <p>Customer 📞: {deliveredOrder.CustomerTelefonnummer}</p>
+                  {deliveredOrder.OrderItems.map((deliveredMenu, index) => (
+                    <div key={index} className="menu">
+                      <p>Menu Name: {deliveredMenu.MenuName}</p>
+                      <p>Menu Type: {deliveredMenu.MenuTyp}</p>
+                      <p>Menu Quantity: {deliveredMenu.QuantityOrdered}</p>
+                      <p>Menu Notes: {deliveredMenu.OrderedMenuItemDesc}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

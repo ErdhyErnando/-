@@ -1,3 +1,8 @@
+h2 {
+  font-weight: bold;
+}
+
+
 .order-status-page {
   max-width: 600px;
   margin: auto;
@@ -10,14 +15,12 @@
   /* Add styles for status icons */
 }
 
-.order-history {
-  margin-top: 20px;
-}
 
 .order {
   border: 1px solid #000;
   margin-bottom: 20px;
   padding: 10px;
+
 }
 
 .order-summary {
@@ -30,5 +33,26 @@
   justify-content: space-between;
   margin-bottom: 10px;
 }
+
+.order-history {
+  display: flex;
+  justify-content: space-between;;
+}
+
+.rejected-orders, .delivered-orders {
+  flex: 1; /* This will make them take up an equal amount of space */
+  margin: 0 10px; /* This will give them some space on the sides */
+  padding: 10px; /* This will give the content inside them some room */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust this to change the space between the buttons */
+}
+
+/* .rejected-orders, .delivered-orders {
+  width: 45%; /* Adjust as needed */
+ 
 
 /* Add additional styles as needed */
