@@ -43,30 +43,6 @@ export default function RestaurantDetail() {
     navigate("/homepage");
   };
 
-  // const handleAppetizerClick = async () => {
-  //   try {
-  //     // Execute axios.post to filter the menus
-  //     const responseAppetizer = await axios.post(
-  //       "http://127.0.0.1:8000/api/menus/FilterType/",
-  //       {
-  //         MenuType: "Appetizer",
-  //         RestaurantID: RestaurantID,
-  //       }
-  //     );
-  //     setAppetizerMenus(responseAppetizer.data);
-
-  //     // Execute axios.get to fetch the updated list of menus
-  //     const response = await axios.get(
-  //       `http://127.0.0.1:8000/api/restaurants/${RestaurantID}/`
-  //     );
-
-  //     // Update the state with the new list of menus
-  //     setMenu(response.data.MenuDetail || []);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleAll = async () => {
     try {
       const restaurantResponse = await axios.get(

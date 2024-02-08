@@ -4,7 +4,6 @@ import Header from "../../components/Header/Header";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../UserContext";
-// import "./OrderStatus.css";
 
 const OrderStatus = () => {
   const [orderHistory, setOrderHistory] = useState([]);
@@ -127,11 +126,11 @@ const OrderStatus = () => {
               Customer Name: {order.CustomerVorname} {order.CustomerNachname}
             </p>
             <p>Address: {order.CustomerAdresse}</p>
-            <p>Customer 📞: {order.CustomerTelefonnummer}</p>
+            {/* <p>Customer 📞: {order.CustomerTelefonnummer}</p> */}
             {order.OrderItems.map((menu, index) => (
               <div key={index} className="menu">
                 <p>Menu Name: {menu.MenuName}</p>
-                <p>Menu Type: {menu.MenuTyp}</p>
+                {/* <p>Menu Type: {menu.MenuTyp}</p> */}
                 <p>Menu Quantity: {menu.QuantityOrdered}</p>
                 <p>Menu Notes: {menu.OrderedMenuItemDesc}</p>
               </div>

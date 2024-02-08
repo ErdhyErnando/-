@@ -68,7 +68,7 @@ const CreateOwnerBank = () => {
           name="bankaccountholder"
           value={formData.bankaccountholder}
           onChange={handleChange}
-          placeholder="Insert your bank name"
+          placeholder="Insert your name"
         />
       </div>
       <div>
@@ -88,7 +88,7 @@ const CreateOwnerBank = () => {
           name="bankname"
           value={formData.bankname}
           onChange={handleChange}
-          placeholder="Insert your bank account number"
+          placeholder="Insert your bank name"
         />
       </div>
       <button type="submit">Continue</button>

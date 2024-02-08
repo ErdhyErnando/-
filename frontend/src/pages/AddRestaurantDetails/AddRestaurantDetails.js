@@ -78,15 +78,6 @@ const AddRestaurantDetails = () => {
         <h1>Adding Restaurant Details</h1>
 
         <input
-          type="tel"
-          name="restaurantTelephone"
-          value={formData.restaurantTelephone}
-          onChange={handleChange}
-          placeholder="Enter restaurant telephone number"
-          required
-        />
-
-        <input
           type="text"
           name="restaurantName"
           value={formData.restaurantName}
@@ -95,6 +86,14 @@ const AddRestaurantDetails = () => {
           required
         />
 
+        <input
+          type="tel"
+          name="restaurantTelephone"
+          value={formData.restaurantTelephone}
+          onChange={handleChange}
+          placeholder="Enter restaurant telephone number"
+          required
+        />
         <input
           type="text"
           name="restaurantAddress"

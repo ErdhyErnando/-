@@ -13,7 +13,7 @@ export default function FoodPage() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const { orderID } = useContext(OrderContext);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("no description");
   const [quantity, setQuantity] = useState(1);
   console.log(orderID.OrderRestaurant);
 
@@ -88,7 +88,7 @@ export default function FoodPage() {
             </label>
           </div>
 
-          <button onClick={handleAddToCart}></button>
+          <button onClick={handleAddToCart}>Add to Cart</button>
         </div>
       </div>
     </>
